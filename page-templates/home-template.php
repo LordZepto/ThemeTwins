@@ -74,7 +74,7 @@ $options = get_option('theme_twins_options');
 		            	while ($the_query->have_posts()) : $the_query->the_post(); 
 		            		//$thumb_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail'); ?>
 		                	<div class="slider_thumb">
-		                		<?php the_post_thumbnail(array(60,60), array ('class' => 'thumb-img')); ?>
+		                		<?php the_post_thumbnail(array(83,83), array ('class' => 'thumb-img')); ?>
 		                	</div>
 		                                 
 			            <?php endwhile; ?>

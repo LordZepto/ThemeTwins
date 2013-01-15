@@ -15,7 +15,7 @@ body {
 	font-family: 'Istok Web', sans-serif;
 }
 #header {
-	background: rgba(52, 52, 52, 0.8);
+	background: rgba(52, 52, 52, 0.6);
 	height: 70px;
 	width: 100%;
 	z-index: 10;
@@ -28,6 +28,7 @@ body {
 	padding-left: 100px;
 }
 
+/** MENUS **/
 #header nav {
 	float: right;
 	color: white;
@@ -36,23 +37,66 @@ body {
 #header nav .nav-menu ul li {
 	margin-top: -15px;
 	list-style: none;
-	float: right;
-	padding: 22px;
+	float: left;
+	padding: 23px 10px;
+	width: 90px;
+	text-align: center;
 }
 #header nav .nav-menu ul li a {
 	color: white;
 	text-decoration: none;
 }
 #header nav .nav-menu ul li:hover {
-	background: rgba(52, 52, 52, 0.8);
-
+	background: rgba(36, 36, 36, 0.6);
+	-moz-box-shadow: inset -2px 2px 10px 1px #333;
+	-webkit-box-shadow: inset -2px 2px 10px 1px #333;
+	box-shadow: inset -2px 2px 10px 1px #333;
 }
+#header nav .nav-menu ul li:hover > a {
+	color: rgba(219, 150, 0, 1);
+}
+/** SUBMENUS **/
+.children {
+	display: none;
+	position: relative;
+	float: none;
+	margin: 10px auto 0px auto;
+	padding: 0px;
+}
+#header nav .nav-menu ul li:hover > .children {
+	display: block;
+	position: absolute;
+	margin-top: 22px;
+	margin-left: -10px;
+	background: rgba(36, 36, 36, 0.6);
+	/*padding: 10;*/
+	width: 110px;
+	/*height: 500px;*/
+	z-index: 9999999;
+}
+#header nav .nav-menu ul li:hover > .children li {
+	margin: 0 auto;
+	text-align: center;
+	float: none;
+	padding: 8px 10px;
+}
+.children li a {
+	font-size: 13px;
+}
+.children li:hover {
+	background: rgba(135, 114, 0, 0.6) !important;
+}
+.children li:hover > a {
+	color: white !important;
+}
+
 #header .timer {
 	position: relative;
 	top: 69px;
 	width: 100%;
-	height: 10px;
+	height: 5px;
 	background: rgba(219, 150, 0, 1);
+	z-index: -1;
 }
 
 #footer {
@@ -61,7 +105,7 @@ body {
 	width: 100%;
 	position: absolute;
 	bottom: 0px;
-	background: rgba(52, 52, 52, 0.8);
+	background: rgba(52, 52, 52, 0.6);
 	color: #c6baa2;
     text-shadow: 1px 1px 3px #000000;
     filter: dropshadow(color=#000000, #blog offx=1, #blog offy=1);
@@ -81,7 +125,7 @@ body {
 	z-index: -1;
 }
 #slder_container {
-	width: 350px;
+	width: 450px;
 	position: relative;
 
 	/*top: 40%;*/
@@ -89,7 +133,7 @@ body {
 }
 #slide_info {
 	position: relative;
-	margin-top: 10%;
+	margin-top: 3%;
 	margin-left: 60px;
 	
 }
@@ -99,7 +143,7 @@ body {
 	padding: 10px;
 
 	/*height: 200px;*/
-	width: 350px;
+	width: 450px;
 	color: white;
 	border-radius: 10px;
 	background: rgba(20, 16, 13, 0.6);
@@ -115,22 +159,27 @@ body {
 	margin-left: 25px;
 }
 .slide_text h3 a:hover {
-	color: rgb(158, 86, 9);
+	color: rgba(219, 150, 0, 1);
 }
 .slide_text p {
 	margin: 35px;
 }
 #slider_index {
-	width: 350px;
-	margin-left: 70px;
+	position: absolute;
+	/*margin-left: -50px;*/
+	left: 60px;
+	width: 470px;
+	/*margin-left: 70px;*/
+	margin: 10px auto;
 }
 .slider_thumb img.thumb-img {
-	display:box ;
+	/*display: box;*/
 	float: left;
 	margin: 3px;
-	border-radius: 5px;
-	padding:0;
+	border-radius: 8px;
+	padding: 0;
 	border: 2px solid black;
+
 }
 .slider_thumb {
 	-moz-box-shadow: inset -2px 2px 10px 1px #333;
@@ -138,6 +187,6 @@ body {
 	box-shadow: inset -2px 2px 10px 1px #333;
 }
 .slider_thumb img.thumb-img:hover {
-	border: 2px solid rgb(158, 86, 9);
+	border: 2px solid rgba(219, 150, 0, 1);
 	cursor: pointer;
 }
