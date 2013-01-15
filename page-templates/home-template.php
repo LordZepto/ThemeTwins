@@ -8,6 +8,7 @@
  * @since ThemeTwins 0.1
  * 
  */
+$options = get_option('theme_twins_options');
 ?><!DOCTYPE html>
 <!--[if IE 7]>
 <html class="ie ie7" <?php language_attributes(); ?>>
@@ -43,7 +44,7 @@
 		<div id="container">
 			<div id="slideshow">
 				<?php
-	            $the_query = new WP_Query('showposts=10&orderby=post_date&order=desc'); 
+	            $the_query = new WP_Query('showposts='. $options['scroller_number_of_posts'] . '&orderby=post_date&order=desc'); 
 	            while ($the_query->have_posts()) : $the_query->the_post(); 
 	            	$large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full');?>
 	                
@@ -63,25 +64,10 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
 	<script type="text/javascript">
-		// $('#backgrounds').find(':first-child').addClass('active');
-		// 	function slideSwitch() {
-		// 	    var $active = $('#backgrounds .active');
-		// 	    var $next = $active.next();
-
-		// 	    $active.addClass('last-active');
-			        
-		// 	    $next.css({opacity: 0.0})
-		// 	        .addClass('active')
-		// 	        .animate({opacity: 1.0}, 1000, function() {
-		// 	            $active.removeClass('active last-active');
-		// 	        });
-		// 	}
-
-		// 	$(function() {
-		// 	    setInterval( "slideSwitch()", 5000 );
-		// 	});
-		// 	
+		// TODO: Re-think the logic, is not that good....
+			$('#slideshow img:first-child').addClass('active');
 		function slideSwitch() {
+
 		    var $active = $('#slideshow IMG.active');
 
 		    if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
@@ -93,14 +79,14 @@
 		        
 		    $next.css({opacity: 0.0})
 		        .addClass('active')
-		        .animate({opacity: 1.0}, 3500, function() {
+		        .animate({opacity: 1.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
 		            $active.removeClass('active last-active');
 		        });
 		}
 
 		$(function() {
 			$('#slideshow').find(':first-child').addClass('active');
-		    setInterval( "slideSwitch()", 8000 );
+		    setInterval( "slideSwitch()", <?php echo $options['scroller_interval_ms'] ?> );
 		});
 	</script>
 </body>

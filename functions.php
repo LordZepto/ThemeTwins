@@ -76,7 +76,16 @@ function themetwins_setup() {
 	set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop
 
 	/** This theme has some options, for now all here for debugging purposes **/
+	delete_option('theme_twins_options'); // debugging purposes, delete on the end.
+	$themetwins_options = array(
+			'scroller_number_of_posts' 	=> '3',
+			'scroller_transition_ms' 	=> '1000',
+			'scroller_interval_ms'		=> '3000'
+		);
 
+	if(! get_option('theme_twins_options')) {
+		add_option( 'theme_twins_options', $themetwins_options );
+	}
 	
 }
 add_action( 'after_setup_theme', 'themetwins_setup' );
