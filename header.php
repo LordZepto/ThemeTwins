@@ -40,8 +40,8 @@
 		</hgroup>
 
 		<nav id="site-navigation" class="main-navigation" role="navigation">
-			<h3 class="menu-toggle"><?php _e( 'Menu', 'twentytwelve' ); ?></h3>
-			<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentytwelve' ); ?>"><?php _e( 'Skip to content', 'twentytwelve' ); ?></a>
+			<h3 class="menu-toggle"><?php _e( 'Menu', 'themetwins' ); ?></h3>
+			<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'themetwins' ); ?>"><?php _e( 'Skip to content', 'themetwins' ); ?></a>
 			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
 		</nav><!-- #site-navigation -->
 
