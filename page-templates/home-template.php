@@ -51,11 +51,37 @@ $options = get_option('theme_twins_options');
 	                <!-- <div  class="background" style="background: url('<?php echo $large_image_url[0];?>') no-repeat center;background-size:cover;"> -->
 	                 
 	        	        <?php the_post_thumbnail('full', array ('class' => 'scroll-bg')); ?>
-	         		
+	         			
 	                  
 	            <?php endwhile; ?>
 	            <?php wp_reset_query(); ?>
-            </div>  
+	            <div id="slider_container">
+		            <div id="slide_info">
+		            	<?php
+		            	$the_query = new WP_Query('showposts='. $options['scroller_number_of_posts'] . '&orderby=post_date&order=desc'); 
+		            	while ($the_query->have_posts()) : $the_query->the_post();?>
+		                	<div class="slide_text">
+		                		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+		                		<?php the_excerpt(); ?>
+		                	</div>
+		                                 
+			            <?php endwhile; ?>
+			            <?php wp_reset_query(); ?>
+		            </div>
+		            <div id="slider_index">
+		            	<?php
+		            	$the_query = new WP_Query('showposts='. $options['scroller_number_of_posts'] . '&orderby=post_date&order=desc'); 
+		            	while ($the_query->have_posts()) : $the_query->the_post(); 
+		            		//$thumb_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail'); ?>
+		                	<div class="slider_thumb">
+		                		<?php the_post_thumbnail(array(60,60), array ('class' => 'thumb-img')); ?>
+		                	</div>
+		                                 
+			            <?php endwhile; ?>
+			            <?php wp_reset_query(); ?>
+		            </div>
+	            </div>
+            </div>
 		</div>
 		<div id="footer">
 			<p>Copyright 2013 NaizuStudio |  All Rights Reserved   |   Powered by WordPress   |  ThemeTwins</p>
@@ -65,29 +91,29 @@ $options = get_option('theme_twins_options');
 	<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
 	<script type="text/javascript">
 		// TODO: Re-think the logic, is not that good....
-			$('#slideshow img:first-child').addClass('active');
-		function slideSwitch() {
+			$('#slide_info .slide_text:first-child').addClass('active');
+		// function slideSwitch() {
 
-		    var $active = $('#slideshow IMG.active');
+		//     var $active = $('#slideshow IMG.active');
 
-		    if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
+		//     if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
 
-		    var $next =  $active.next().length ? $active.next()
-		        : $('#slideshow IMG:first');
+		//     var $next =  $active.next().length ? $active.next()
+		//         : $('#slideshow IMG:first');
 
-		    $active.addClass('last-active');
+		//     $active.addClass('last-active');
 		        
-		    $next.css({opacity: 0.0})
-		        .addClass('active')
-		        .animate({opacity: 1.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
-		            $active.removeClass('active last-active');
-		        });
-		}
+		//     $next.css({opacity: 0.0})
+		//         .addClass('active')
+		//         .animate({opacity: 1.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
+		//             $active.removeClass('active last-active');
+		//         });
+		// }
 
-		$(function() {
-			$('#slideshow').find(':first-child').addClass('active');
-		    setInterval( "slideSwitch()", <?php echo $options['scroller_interval_ms'] ?> );
-		});
+		// $(function() {
+		// 	$('#slideshow').find(':first-child').addClass('active');
+		//     setInterval( "slideSwitch()", <?php echo $options['scroller_interval_ms'] ?> );
+		// });
 	</script>
 </body>
 </html>
