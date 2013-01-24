@@ -69,7 +69,7 @@ $options = get_option('theme_twins_options');
 		            	$the_query = new WP_Query('showposts='. $options['scroller_number_of_posts'] . '&orderby=post_date&order=desc'); 
 		            	while ($the_query->have_posts()) : $the_query->the_post(); 
 		            		?>
-		                	<div class="slider_thumb" style="background-image: url('<?php echo MultiPostThumbnails::get_post_thumbnail_url('post', 'secondary-image') ?>') ">
+		                	<div class="slider_thumb" style="background-image: url('<?php echo get_post_sliderindex_url('post', 'sliderindex') ?>') ">
 		                		
     						</div>
 		                                 
