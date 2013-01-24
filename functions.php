@@ -402,7 +402,7 @@ function themetwins_body_class( $classes ) {
 
 	if ( is_page_template( 'page-templates/front-page.php' ) ) {
 		$classes[] = 'template-front-page';
-		if ( has_post_sliderindex() )
+		if ( has_post_thumbnail() )
 			$classes[] = 'has-post-thumbnail';
 		if ( is_active_sidebar( 'sidebar-2' ) && is_active_sidebar( 'sidebar-3' ) )
 			$classes[] = 'two-sidebars';
