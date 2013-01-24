@@ -37,7 +37,7 @@ if ( ! isset( $content_width ) )
  * @uses add_theme_support() To add support for post thumbnails, automatic feed links,
  * 	custom background, and post formats.
  * @uses register_nav_menu() To add support for navigation menus.
- * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
+ * @uses set_post_sliderindex_size() To set a custom post thumbnail size.
  *
  * @since Twenty Twelve 1.0
  */
@@ -402,7 +402,7 @@ function themetwins_body_class( $classes ) {
 
 	if ( is_page_template( 'page-templates/front-page.php' ) ) {
 		$classes[] = 'template-front-page';
-		if ( has_post_thumbnail() )
+		if ( has_post_sliderindex() )
 			$classes[] = 'has-post-thumbnail';
 		if ( is_active_sidebar( 'sidebar-2' ) && is_active_sidebar( 'sidebar-3' ) )
 			$classes[] = 'two-sidebars';
@@ -461,3 +461,399 @@ function themetwins_customize_preview_js() {
 	wp_enqueue_script( 'themetwins-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20120827', true );
 }
 add_action( 'customize_preview_init', 'themetwins_customize_preview_js' );
+
+
+
+
+/**
+ * SLIDER INDEX IMAGE UPLOADER.
+ */
+
+add_action('add_meta_boxes', 'add_metabox_modal');
+add_action('save_post', 'action_save_post');
+// add_action('admin_enqueue_scripts', 'enqueue_admin_scripts');
+add_action('delete_attachment', 'action_delete_attachment');
+
+/**
+ * Add admin metabox for thumbnail chooser
+ *
+ * @return void
+ */
+function add_metabox() {
+	add_meta_box("post-sliderindex", "Imágen de índice", 'thumbnail_meta_box', "post", 'side', "low");
+}
+
+/**
+ * Add admin metabox for media modal chooser
+ *  
+ */
+function add_metabox_modal() {
+	add_meta_box("post-sliderindex", "Imágen de índice", 'thumbnail_meta_box_modal', "post", 'side', "low");
+}
+
+/**
+ * Output the metabox with the media modal chooser
+ * 
+ * @global type $_wp_additional_image_sizes
+ * @param type $post 
+ */
+function thumbnail_meta_box_modal($post) {
+	global $_wp_additional_image_sizes;
+
+    ?><style>
+        #select-mpt-post-sliderindex {overflow: hidden; padding: 4px 0;}
+        #select-mpt-post-sliderindex .remove {display: none; margin-top: 10px; }
+        #select-mpt-post-sliderindex.has-featured-image .remove { display: inline-block; }
+        #select-mpt-post-sliderindex a { clear: both; float: left; }
+    </style>
+    <script type="text/javascript">
+    jQuery( function($) {
+        var $element     = $('#select-mpt-post-sliderindex'),
+            $thumbnailId = $element.find('input[name="post-sliderindex-thumbnail_id"]'),
+            title        = 'Elige una imágen de índice',
+            update       = 'Actualiza la imágen de índice',
+            Attachment   = wp.media.model.Attachment,
+            frame, setMPTImage;
+
+        setMPTImage = function( thumbnailId ) {
+            var selection;
+            
+            $element.find('img').remove();
+            $element.toggleClass( 'has-featured-image', -1 != thumbnailId );
+            $thumbnailId.val( thumbnailId );
+            
+            if ( frame ) {
+                selection = frame.state().get('selection');
+                if ( -1 === thumbnailId )
+                    selection.clear();
+                else
+                    selection.add( Attachment.get( thumbnailId ) );
+            }
+        };
+
+        $element.on( 'click', '.choose, img', function( event ) {
+            event.preventDefault();
+
+           if ( frame ) {
+                frame.open();
+                return;
+            }
+            
+            options = {
+                title:   title,
+                library: {
+                    type: 'image'
+                }
+            };
+            
+            thumbnailId = $thumbnailId.val();
+            if ( '' !== thumbnailId && -1 !== thumbnailId )
+                options.selection = [ Attachment.get( thumbnailId ) ];
+
+            frame = wp.media.frames.frame = wp.media( options );
+            frame.on( 'select', function() {
+            	var selection = frame.state().get('selection'),
+                    model = selection.first(),
+                    sizes = model.attributes.sizes,
+                    size;
+                setMPTImage( model.id );
+
+                // @todo: might need a size hierarchy equivalent.
+                if ( sizes )
+                    size = sizes['<?php echo esc_js("post-sliderindex-thumbnail"); ?>'] || sizes.medium;
+                    //size = sizes['post-thumbnail'] || sizes.medium;
+
+                // @todo: Need a better way of accessing full size
+                // data besides just calling toJSON().
+                size = size || model.toJSON();
+
+                frame.close();
+
+                $( '<img />', {
+                    src:    size.url,
+                    width:  size.width
+                }).prependTo( $element );
+                        
+
+            });                    
+        frame.open();        
+
+        });
+
+
+        $element.on( 'click', '.remove', function( event ) {
+            event.preventDefault();
+            setMPTImage( -1 );
+        });
+    });
+    </script>
+
+    <?php
+    $thumbnail_id   = get_post_sliderindex_id("post", "sliderindex", $post->ID);
+    $thumbnail_size = isset( $_wp_additional_image_sizes["post-sliderindex-thumbnail"] ) ? "post-sliderindex-thumbnail" : 'medium';
+    $thumbnail_html = wp_get_attachment_image( $thumbnail_id, $thumbnail_size );
+
+    $classes = empty( $thumbnail_id ) ? '' : 'has-featured-image';
+
+    ?><div id="select-mpt-post-sliderindex"
+        class="<?php echo esc_attr( $classes ); ?>"
+        data-post-id="<?php echo esc_attr( $post->ID ); ?>">
+        <?php echo $thumbnail_html; ?>
+        <input type="hidden" name="post-sliderindex-thumbnail_id" value="<?php echo esc_attr( $thumbnail_id ); ?>" />
+        <a href="#" class="choose button-secondary">Elige una imágen de índice</a>
+        <a href="#" class="remove">Elimina la imágen de índice</a>
+    </div>
+    <?php
+}
+
+/**
+ * Save or remove the thumbnail metadata. Only for WordPress version >=3.5 with modal media chooser.
+ * @param type $post_id 
+ */
+function action_save_post($post_id) {
+    if (! is_admin() || ! isset($_POST["post-sliderindex-thumbnail_id"])) {
+        return;
+    }
+    
+    if (! empty($_POST["post-sliderindex-thumbnail_id"])) {
+        $thumbnail_id = (int) $_POST["post-sliderindex-thumbnail_id"];
+        if ('-1' == $thumbnail_id)
+            delete_post_meta($post_id, "post_sliderindex_thumbnail_id");
+        else
+            update_post_meta($post_id, "post_sliderindex_thumbnail_id", $thumbnail_id);
+    } else {
+        delete_post_meta($post_id, "post_sliderindex_thumbnail_id");
+    }
+}
+
+/**
+ * Output the thumbnail meta box
+ *
+ * @return string HTML output
+ */
+function thumbnail_meta_box() {
+	global $post;
+	$thumbnail_id = get_post_meta($post->ID, "post_sliderindex_thumbnail_id", true);
+	echo post_thumbnail_html($thumbnail_id);
+}
+
+/**
+ * Throw this in the media attachment fields
+ *
+ * @param string $form_fields
+ * @param string $post
+ * @return void
+ */
+function add_attachment_field($form_fields, $post) {
+	$calling_post_id = 0;
+	if (isset($_GET['post_id']))
+		$calling_post_id = absint($_GET['post_id']);
+	elseif (isset($_POST) && count($_POST)) // Like for async-upload where $_GET['post_id'] isn't set
+		$calling_post_id = $post->post_parent;
+
+	if (!$calling_post_id)
+		return $form_fields;
+
+	// check the post type to see if link needs to be added
+	$calling_post = get_post($calling_post_id);
+	if (is_null($calling_post) || $calling_post->post_type != "post") {
+		return $form_fields;
+	}
+
+	$referer = wp_get_referer();
+	$query_vars = wp_parse_args(parse_url($referer, PHP_URL_QUERY));
+
+	if( (isset($_REQUEST['context']) && $_REQUEST['context'] != "sliderindex") || (isset($query_vars['context']) && $query_vars['context'] != "sliderindex") )
+		return $form_fields;
+
+	$ajax_nonce = wp_create_nonce("set_post_sliderindex-post-sliderindex-{$calling_post_id}");
+	$link = sprintf('<a id="%4$s-%1$s-thumbnail-%2$s" class="%1$s-thumbnail" href="#" onclick="MultiPostThumbnails.setAsThumbnail(\'%2$s\', \'%1$s\', \'%4$s\', \'%5$s\');return false;">Set as %3$s</a>', "sliderindex", $post->ID, "sliderindex", "post", $ajax_nonce);
+	$form_fields["post-sliderindex-thumbnail"] = array(
+		'label' => "sliderindex",
+		'input' => 'html',
+		'html' => $link);
+	return $form_fields;
+}
+
+/**
+ * Enqueue admin JavaScripts
+ *
+ * @return void
+ */
+function enqueue_admin_scripts( $hook ) {
+	// only load on select pages
+	if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'media-upload-popup' ) ) )
+		return;
+
+	add_thickbox();
+	wp_enqueue_script( "featured-image-custom", get_template_directory_uri() . '/js/index-image.js', array( 'jquery', 'media-upload' ) );
+}
+
+/**
+ * Deletes the post meta data for posts when an attachment used as a
+ * multiple post thumbnail is deleted from the Media Libray
+ *
+ * @global object $wpdb
+ * @param int $post_id
+ */
+function action_delete_attachment($post_id) {
+	global $wpdb;
+    
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '%s' AND meta_value = %d", "post_sliderindex_thumbnail_id", $post_id ));
+}
+
+/**
+ * Check if post has an image attached.
+ *
+ * @param string $post_type The post type.
+ * @param string $id The id used to register the thumbnail.
+ * @param string $post_id Optional. Post ID.
+ * @return bool Whether post has an image attached.
+ */
+function has_post_sliderindex($post_type, $id, $post_id = null) {
+	if (null === $post_id) {
+		$post_id = get_the_ID();
+	}
+
+	if (!$post_id) {
+		return false;
+	}
+
+	return get_post_meta($post_id, "post_sliderindex_thumbnail_id", true);
+}
+
+/**
+ * Display Post Thumbnail.
+ *
+ * @param string $post_type The post type.
+ * @param string $thumb_id The id used to register the thumbnail.
+ * @param string $post_id Optional. Post ID.
+ * @param int $size Optional. Image size.  Defaults to 'post-thumbnail', which theme sets using set_post_sliderindex_size( $width, $height, $crop_flag );.
+ * @param string|array $attr Optional. Query string or array of attributes.
+ * @param bool $link_to_original Optional. Wrap link to original image around thumbnail?
+ */
+function the_post_sliderindex($post_type, $thumb_id, $post_id = null, $size = 'post-thumbnail', $attr = '', $link_to_original = false) {
+	echo get_the_post_sliderindex($post_type, $thumb_id, $post_id, $size, $attr, $link_to_original);
+}
+
+/**
+ * Retrieve Post Thumbnail.
+ *
+ * @param string $post_type The post type.
+ * @param string $thumb_id The id used to register the thumbnail.
+ * @param int $post_id Optional. Post ID.
+ * @param string $size Optional. Image size.  Defaults to 'thumbnail'.
+ * @param bool $link_to_original Optional. Wrap link to original image around thumbnail?
+ * @param string|array $attr Optional. Query string or array of attributes.
+  */
+function get_the_post_sliderindex($post_type, $thumb_id, $post_id = NULL, $size = 'post-thumbnail', $attr = '' , $link_to_original = false) {
+	global $id;
+	$post_id = (NULL === $post_id) ? get_the_ID() : $post_id;
+	$post_thumbnail_id = get_post_sliderindex_id($post_type, $thumb_id, $post_id);
+	$size = apply_filters("{$post_type}_{$post_id}_thumbnail_size", $size);
+	if ($post_thumbnail_id) {
+		do_action("begin_fetch_multi_{$post_type}_thumbnail_html", $post_id, $post_thumbnail_id, $size); // for "Just In Time" filtering of all of wp_get_attachment_image()'s filters
+		$html = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
+		do_action("end_fetch_multi_{$post_type}_thumbnail_html", $post_id, $post_thumbnail_id, $size);
+	} else {
+		$html = '';
+	}
+
+	if ($link_to_original && $html) {
+		$html = sprintf('<a href="%s">%s</a>', wp_get_attachment_url($post_thumbnail_id), $html);
+	}
+
+	return apply_filters("{$post_type}_{$thumb_id}_thumbnail_html", $html, $post_id, $post_thumbnail_id, $size, $attr);
+}
+
+/**
+ * Retrieve Post Thumbnail ID.
+ *
+ * @param string $post_type The post type.
+ * @param string $id The id used to register the thumbnail.
+ * @param int $post_id Post ID.
+ * @return int
+ */
+function get_post_sliderindex_id($post_type, $id, $post_id) {
+	return get_post_meta($post_id, "{$post_type}_{$id}_thumbnail_id", true);
+}
+
+/**
+ *
+ * @param string $post_type The post type.
+ * @param string $id The id used to register the thumbnail.
+ * @param int $post_id Optional. The post ID. If not set, will attempt to get it.
+ * @return mixed Thumbnail url or false if the post doesn't have a thumbnail for the given post type, and id.
+ */
+function get_post_sliderindex_url($post_type, $id, $post_id = 0) {
+	if (!$post_id) {
+		$post_id = get_the_ID();
+	}
+
+	$post_thumbnail_id = get_post_sliderindex_id($post_type, $id, $post_id);
+
+	return wp_get_attachment_url($post_thumbnail_id);
+}
+
+/**
+ * Output the post thumbnail HTML for the metabox and AJAX callbacks
+ *
+ * @param string $thumbnail_id The thumbnail's post ID.
+ * @return string HTML
+ */
+function post_thumbnail_html($thumbnail_id = null) {
+	global $content_width, $_wp_additional_image_sizes, $post_ID;
+	$image_library_url = get_upload_iframe_src('image');
+	 // if TB_iframe is not moved to end of query string, thickbox will remove all query args after it.
+	$image_library_url = add_query_arg( array( 'context' => "sliderindex", 'TB_iframe' => 1 ), remove_query_arg( 'TB_iframe', $image_library_url ) );
+	$set_thumbnail_link = sprintf('<p class="hide-if-no-js"><a title="Imágen de índice" href="%2$s" id="set-%3$s-%4$s-thumbnail" class="thickbox">%%s</a></p>', $image_library_url, "post", "sliderindex");
+	$content = sprintf($set_thumbnail_link, esc_html__( "Establecer imágen de índice" ));
+
+
+	if ($thumbnail_id && get_post($thumbnail_id)) {
+		$old_content_width = $content_width;
+		$content_width = 266;
+		if ( !isset($_wp_additional_image_sizes["post-sliderindex-thumbnail"]))
+			$thumbnail_html = wp_get_attachment_image($thumbnail_id, array($content_width, $content_width));
+		else
+			$thumbnail_html = wp_get_attachment_image($thumbnail_id, "post-sliderindex-thumbnail");
+		if (!empty($thumbnail_html)) {
+			$ajax_nonce = wp_create_nonce("set_post_sliderindex-post-sliderindex-{$post_ID}");
+			$content = sprintf($set_thumbnail_link, $thumbnail_html);
+			$content .= sprintf('<p class="hide-if-no-js"><a href="#" id="remove-%1$s-%2$s-thumbnail" onclick="MultiPostThumbnails.removeThumbnail(\'%2$s\', \'%1$s\', \'%4$s\');return false;">%3$s</a></p>', "post", "sliderindex", esc_html__( "Eliminar imágen de índice" ), $ajax_nonce);
+		}
+		$content_width = $old_content_width;
+	}
+
+	return $content;
+}
+
+/**
+ * Set/remove the post thumbnail. AJAX handler.
+ *
+ * @return string Updated post thumbnail HTML.
+ */
+function set_thumbnail() {
+	global $post_ID; // have to do this so get_upload_iframe_src() can grab it
+	$post_ID = intval($_POST['post_id']);
+	if ( !current_user_can('edit_post', $post_ID))
+		die('-1');
+	$thumbnail_id = intval($_POST['thumbnail_id']);
+
+	check_ajax_referer("set_post_sliderindex-post-sliderindex-{$post_ID}");
+
+	if ($thumbnail_id == '-1') {
+		delete_post_meta($post_ID, "post_sliderindex_thumbnail_id");
+		die(post_thumbnail_html(null));
+	}
+
+	if ($thumbnail_id && get_post($thumbnail_id)) {
+		$thumbnail_html = wp_get_attachment_image($thumbnail_id, 'thumbnail');
+		if (!empty($thumbnail_html)) {
+			update_post_meta($post_ID, "post_sliderindex_thumbnail_id", $thumbnail_id);
+			die(post_thumbnail_html($thumbnail_id));
+		}
+	}
+
+	die('0');
+}
