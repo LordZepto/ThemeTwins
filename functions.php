@@ -471,7 +471,7 @@ add_action( 'customize_preview_init', 'themetwins_customize_preview_js' );
 
 add_action('add_meta_boxes', 'add_metabox_modal');
 add_action('save_post', 'action_save_post');
-add_action('admin_enqueue_scripts', 'enqueue_admin_scripts');
+// add_action('admin_enqueue_scripts', 'enqueue_admin_scripts');
 add_action('delete_attachment', 'action_delete_attachment');
 
 /**
@@ -524,7 +524,6 @@ function thumbnail_meta_box_modal($post) {
             
             if ( frame ) {
                 selection = frame.state().get('selection');
-                // console.log(frame);
                 if ( -1 === thumbnailId )
                     selection.clear();
                 else
