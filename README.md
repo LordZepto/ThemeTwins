@@ -3,7 +3,11 @@
 This is a wordpress theme made for **_NaizuStudio_**
 
 ##TODO
-* add another image to the post, it should work exactly like the standard but with 83*171px of res.
+* Create metabox.
+* Fill metabox with:
+	* If image selected 		-> Image
+	* If image **not** selected 	-> Link to media upload 
+* Use **AJAX** to auto save the image when selected.
 
 This code does something like that.
 
@@ -12,7 +16,7 @@ This code does something like that.
 Plugin Name: Multiple Post Thumbnails
 Plugin URI: http://wordpress.org/extend/plugins/multiple-post-thumbnails/
 Description: Adds the ability to add multiple post thumbnails to a post type.
-Version: 1.4
+Version: 1.5
 Author: Chris Scott
 Author URI: http://voceplatforms.com/
 */
@@ -38,7 +42,7 @@ if (!class_exists('MultiPostThumbnails')) {
 
 	class MultiPostThumbnails {
 
-		public function __construct($args = array()) {				
+		public function __construct($args = array()) {
 			$this->register($args);
 		}
 
@@ -130,7 +134,7 @@ if (!class_exists('MultiPostThumbnails')) {
 				$calling_post_id = absint($_GET['post_id']);
 			elseif (isset($_POST) && count($_POST)) // Like for async-upload where $_GET['post_id'] isn't set
 				$calling_post_id = $post->post_parent;
-			
+
 			if (!$calling_post_id)
 				return $form_fields;
 
@@ -142,7 +146,7 @@ if (!class_exists('MultiPostThumbnails')) {
 
 			$referer = wp_get_referer();
 			$query_vars = wp_parse_args(parse_url($referer, PHP_URL_QUERY));
-			
+
 			if( (isset($_REQUEST['context']) && $_REQUEST['context'] != $this->id) || (isset($query_vars['context']) && $query_vars['context'] != $this->id) )
 				return $form_fields;
 
@@ -168,7 +172,7 @@ if (!class_exists('MultiPostThumbnails')) {
 			add_thickbox();
 			wp_enqueue_script( "featured-image-custom", $this->plugins_url( 'js/multi-post-thumbnails-admin.js', __FILE__ ), array( 'jquery', 'media-upload' ) );
 		}
-		
+
 		public function hide_media_sidebar_fields () {
 			echo sprintf('<style type="text/css">.media-sidebar tr.compat-field-%s-%s-thumbnail {display: none;}</style>', $this->post_type, $this->id);
 		}
@@ -363,7 +367,7 @@ if (!class_exists('MultiPostThumbnails')) {
 
 			die('0');
 		}
-		
+
 		/**
 		 * set thumbnail meta
 		 * 
@@ -378,5 +382,15 @@ if (!class_exists('MultiPostThumbnails')) {
 		}
 
 	}
+
 }
+if (class_exists('MultiPostThumbnails')) {
+                new MultiPostThumbnails(
+                    array(
+                        'label' => 'Index Image',
+                        'id' => 'secondary-image',
+                        'post_type' => 'post'
+                    )
+                );
+            }
 ```
