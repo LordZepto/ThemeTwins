@@ -8,11 +8,14 @@
  */
 
 body {
+	min-width: 1100px;
+	min-height: 800px;
 	height: 100%;
 	width: 100%;
 	margin: 0;
 	padding: 0;
 	font-family: 'Istok Web', sans-serif;
+	-webkit-font-smoothing: antialiased;
 }
 #header {
 	background: rgba(52, 52, 52, 0.6);
@@ -30,6 +33,7 @@ body {
 
 /** MENUS **/
 #header nav {
+	-webkit-font-smoothing: antialiased;
 	float: right;
 	color: white;
 	margin-right: 20px; /* Quitar esto si quieres que llegue el menú hasta el borde al hover */
@@ -82,6 +86,7 @@ body {
 }
 .children li a {
 	font-size: 13px;
+	-webkit-font-smoothing: antialiased;
 }
 .children li:hover {
 	background: rgba(135, 114, 0, 0.6) !important;
@@ -100,6 +105,7 @@ body {
 }
 
 #footer {
+	min-width: 1100px;
 	text-align: center;
 	height: 30px;
 	width: 100%;
@@ -114,33 +120,33 @@ body {
 	margin-top: 3px;
 }
 
-#slideshow img.scroll-bg {
-	display: none;
-	position: absolute;
+.bgContainer {
+	position: fixed;
 	top:0;
+	bottom:0;
 	left:0;
-	height: 100%;
+	right:0;
 	width: 100%;
-	z-index: -2;
+	height: 100%;
+	background-size: cover;
+	/*z-index: -2;*/
+	display: none;
 }
-#slideshow img.active {
+.bgContainer.active {
 	display: block;
 	z-index: -1;
 }
-#slideshow img.last-active {
+.bgContainer.next-active {
 	display: block;
 	z-index: -2;
 }
-#slder_container {
+#slider_container {
 	width: 450px;
 	position: relative;
-
-	/*top: 40%;*/
-	/*left: 60px;*/
 }
 #slide_info {
 	position: relative;
-	margin-top: 3%;
+	margin-top: 11%;
 	margin-left: 60px;
 	
 }
@@ -193,7 +199,7 @@ body {
 	
 }
 .slider_thumb.active {
-	opacity: 0.7;
+	opacity: 1;
 	background-position: 0px 83px;	
 	border: 2px solid rgba(219, 150, 0, 1);
 }
@@ -203,8 +209,8 @@ body {
 	opacity: 1;
 
 }
-/*.slider_thumb.active, .slider_thumb.active:hover  {
+.slider_thumb.active, .slider_thumb.active:hover  {
 	border: 2px solid rgba(219, 150, 0, 1);
-	opacity: 0.7;
+	opacity: 1;
 	cursor: auto;
-}*/
+}

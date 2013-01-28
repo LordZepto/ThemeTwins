@@ -46,7 +46,10 @@ $options = get_option('theme_twins_options');
 				<?php
 	            $the_query = new WP_Query('showposts='. $options['scroller_number_of_posts'] . '&orderby=post_date&order=desc'); 
 	            while ($the_query->have_posts()) : $the_query->the_post(); ?>
-	               <?php the_post_thumbnail('full', array ('class' => 'scroll-bg', 'data-id' => get_the_ID())); ?>
+	            <div class="bgContainer" style="background-image: url('<?php echo wp_get_attachment_url( get_post_thumbnail_id($post->ID) );?>');">
+	            	
+	            </div>
+	               
 	         			
 	                  
 	            <?php endwhile; ?>
@@ -86,6 +89,55 @@ $options = get_option('theme_twins_options');
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
 	<script type="text/javascript">
+
+		jQuery(document).ready(function($) {
+			homeEffect.init($('.timer'), $('.bgContainer'));
+			homeEffect.fadeEffect($('.bgContainer.active'), $('.bgContainer.active').next());
+		});
+		
+		var homeEffect = {
+			init: function(timer, bgList) {
+				this.timer 		= timer;
+				this.bgList 	= bgList;
+				this.bgLength 	= this.bgList.length;
+				this.bgLast 	= this.bgList.last();
+				this.imageIndex = 1;
+				this.bgInterval = setInterval( "homeEffect.fadeEffect($('.bgContainer.active'), $('.bgContainer.active').next())", <?php echo $options['scroller_interval_ms'] ?> )
+			},
+			getCurrentWidth: function () {
+				var width = this.init.timer.width();
+				var parentWidth = this.init.timer.offsetParent().width();
+				var percent = 100*width/parentWidth;
+
+				return percent;
+			},
+			fadeEffect: function(from, to) {
+				this.index = from.parent().children('div').index(from)+1;
+				console.log(this.index + ' of ' + this.bgLength);
+				if(this.index == this.bgLength) { to = this.bgList.first(); this.index = 1}
+				to.addClass('next-active').css({opacity:1});
+				from.animate({opacity: 0.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
+			  		from.removeClass('active');
+			  		to.removeClass('next-active').addClass('active').css({opacity: 1});
+			  	});
+			  	
+				// from.addClass('last-active');
+				// to 	.css({opacity: 0.0})
+				//   	.addClass('active')
+				//   	.animate({opacity: 1.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
+				//   		from.removeClass('active').css({opacity: 0.0});
+				//   	});
+				return 'done!';
+			},
+			indexImage: function() {
+
+			},
+			progressBar: function(time) {
+				
+			},
+		}
+
+
 		// TODO: Re-think the logic, is not that good....
 			// 
 		// function slideSwitch() {
@@ -172,7 +224,7 @@ $options = get_option('theme_twins_options');
 	 //         				$('#slideshow > img.last-active').removeClass('last-active');
 	 //         			});
 
-	 //     	$('#slideshow > img.active').removeClass('active').addClass('last-active');
+		//  $('#slideshow > img.active').removeClass('active').addClass('last-active');
   //   		$('.slide_text.active').removeClass('active').addClass('last-active');
   //   		$('[data-id=' + $id + ']').addClass('active');
   //   		$('.thumb-img.active').removeClass('active');	
@@ -186,7 +238,7 @@ $options = get_option('theme_twins_options');
 			
 		// 	//activamos cosas
 			$('#slide_info .slide_text:first-child').addClass('active');
-			$('#slideshow > :first-child').addClass('active');
+			$('#slideshow > :first-child ').addClass('active');
 			$('#slider_index > :first-child').addClass('active');
 
 		// 	//efecto al hacer click sobre la miniatura
@@ -211,8 +263,27 @@ $options = get_option('theme_twins_options');
 	 // 				//fadeBGInterval = setInterval( "fadeBG()", <?php echo $options['scroller_interval_ms'] ?> );
 		// 		}
 		// 	});
-		// 	fadeBGInterval = setInterval( "fadeBG()", <?php echo $options['scroller_interval_ms'] ?> );
+		// 	
 		// });
+		// 
+		// 
+// var $img = $('#slideshow > img')
+// $(window).on('resize', function () {
+//     var viewport = {
+//             width   : $(this).width(),
+//             height : $(this).height()
+//         },
+//         ratio     = ($img.height() / $img.width()),
+//         imgHeight = Math.floor(viewport.width * ratio);
+    
+//     $img.css({
+//         width     : viewport.width,
+//         height    : imgHeight,
+//         marginTop : (imgHeight > viewport.height) ? Math.floor((imgHeight - viewport.height) / 2 * -1) : 0
+//     });
+// }).trigger('resize');
+
+// });
 	</script>
 </body>
 </html>
