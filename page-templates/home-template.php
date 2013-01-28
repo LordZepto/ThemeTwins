@@ -39,14 +39,16 @@ $options = get_option('theme_twins_options');
 			<nav id="site-navigation" class="main-navigation" role="navigation">
 				<?php wp_nav_menu( array( 'theme_location' => 'Home', 'menu_class' => 'nav-menu' ) ); ?>
 			</nav><!-- #site-navigation -->
-			<div class="timer"></div>
+			<div class="timerParent">
+				<div class="timer"></div>
+			</div>
 		</div>
 		<div id="container">
 			<div id="slideshow">
 				<?php
 	            $the_query = new WP_Query('showposts='. $options['scroller_number_of_posts'] . '&orderby=post_date&order=desc'); 
 	            while ($the_query->have_posts()) : $the_query->the_post(); ?>
-	            <div class="bgContainer" style="background-image: url('<?php echo wp_get_attachment_url( get_post_thumbnail_id($post->ID) );?>');">
+	            <div class="bgContainer" data-id="<?php the_ID() ?>" style="background-image: url('<?php echo wp_get_attachment_url( get_post_thumbnail_id($post->ID) );?>');">
 	            	
 	            </div>
 	               
@@ -72,7 +74,7 @@ $options = get_option('theme_twins_options');
 		            	$the_query = new WP_Query('showposts='. $options['scroller_number_of_posts'] . '&orderby=post_date&order=desc'); 
 		            	while ($the_query->have_posts()) : $the_query->the_post(); 
 		            		?>
-		                	<div class="slider_thumb" style="background-image: url('<?php echo get_post_sliderindex_url('post', 'sliderindex') ?>') ">
+		                	<div class="slider_thumb" data-id="<?php the_ID() ?>" style="background-image: url('<?php echo get_post_sliderindex_url('post', 'sliderindex') ?>') ">
 		                		
     						</div>
 		                                 
@@ -90,89 +92,85 @@ $options = get_option('theme_twins_options');
 	<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
 	<script type="text/javascript">
 
-		jQuery(document).ready(function($) {
-			homeEffect.init($('.timer'), $('.bgContainer'));
-			homeEffect.fadeEffect($('.bgContainer.active'), $('.bgContainer.active').next());
+jQuery(document).ready(function($) {
+			homeEffect.init($('.timer'), $('.bgContainer'), $('.slide_text'));
+			$('#slide_info .slide_text:first-child').addClass('active');
+			$('#slideshow > :first-child ').addClass('active');
+			$('#slider_index > :first-child').addClass('active');
 		});
 		
 		var homeEffect = {
-			init: function(timer, bgList) {
-				this.timer 		= timer;
-				this.bgList 	= bgList;
-				this.bgLength 	= this.bgList.length;
-				this.bgLast 	= this.bgList.last();
-				this.imageIndex = 1;
-				this.bgInterval = setInterval( "homeEffect.fadeEffect($('.bgContainer.active'), $('.bgContainer.active').next())", <?php echo $options['scroller_interval_ms'] ?> )
+			init: function(timer, bgList, contentContainer) {
+				this.timer 				= timer;
+				this.bgList 			= bgList;
+				this.bgLength 			= this.bgList.length;
+				this.bgLast 			= this.bgList.last();
+				//this.contentContainer 	= contentContainer;
+				this.progressStep		= 6000 / (10);
+				// this.data_id			= 
+				// this.indexes	= 
+				// this.bgInterval 		= setInterval( "", 6000 );
+				this.pbinterval			= this.progressBar(this.progressStep);
+				this.timer.css({width:0});
+				$('.slider_thumb').click(function(){homeEffect.indexImage($(this).attr('data-id'))})
 			},
 			getCurrentWidth: function () {
-				var width = this.init.timer.width();
-				var parentWidth = this.init.timer.offsetParent().width();
+				var width = this.timer.width();
+				var parentWidth = this.timer.offsetParent().width();
 				var percent = 100*width/parentWidth;
 
 				return percent;
 			},
 			fadeEffect: function(from, to) {
+
 				this.index = from.parent().children('div').index(from)+1;
-				console.log(this.index + ' of ' + this.bgLength);
+				//console.log('transición ' + this.index + ' de ' + this.bgLength);
 				if(this.index == this.bgLength) { to = this.bgList.first(); this.index = 1}
 				to.addClass('next-active').css({opacity:1});
-				from.animate({opacity: 0.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
+
+				from.animate({opacity: 0.0}, 1000, function() {
 			  		from.removeClass('active');
 			  		to.removeClass('next-active').addClass('active').css({opacity: 1});
-			  	});
+			  	}).delay(400);
+			  	this.contentEffect(to.attr('data-id'));
+			  	this.timer.css({width:0});
 			  	
-				// from.addClass('last-active');
-				// to 	.css({opacity: 0.0})
-				//   	.addClass('active')
-				//   	.animate({opacity: 1.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
-				//   		from.removeClass('active').css({opacity: 0.0});
-				//   	});
-				return 'done!';
 			},
-			indexImage: function() {
+			contentEffect: function(id) {
 
+				$('.slide_text.active, .slider_thumb.active').removeClass('active');
+
+	    		$('[data-id=' + id + ']').addClass('active');
+				//console.log('the id is: ' + id);
+			},
+			indexImage: function(id) {
+				clearInterval(this.progressBar);
+				$('.slide_text.active, .slider_thumb.active').removeClass('active');
+				$('.slide_text[data-id=' + id + '], .slider_thumb[data-id=' + id + ']').addClass('active');
+				this.fadeEffect($('.bgContainer.active'), $('.bgContainer[data-id=' + id + ']'));
+				
 			},
 			progressBar: function(time) {
 				
+				timer = setInterval(function () {
+					nextwidth = homeEffect.getCurrentWidth() + 0.4 + "%";
+					//console.log(nextwidth);
+					homeEffect.timer.width( nextwidth );
+					//console.log(homeEffect.getCurrentWidth());
+					if (homeEffect.getCurrentWidth() >= '100') {
+						homeEffect.fadeEffect($('.bgContainer.active'), $('.bgContainer.active').next())
+					}
+				}, 25);
 			},
 		}
 
 
+
 		// TODO: Re-think the logic, is not that good....
 			// 
-		// function slideSwitch() {
-
-		//     var $active = $('#slideshow IMG.active');
-
-		//     if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
-
-		//     var $next =  $active.next().length ? $active.next()
-		//         : $('#slideshow IMG:first');
-
-		//     $active.addClass('last-active');
-		        
-		//     $next.css({opacity: 0.0})
-		//         .addClass('active')
-		//         .animate({opacity: 1.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
-		//             $active.removeClass('active last-active');
-		//         });
-		// }
 		// $('.slider_thumb img').click(function() {
-// $alt = $(this).attr('alt')
-// $('#slideshow img).find([alt=$alt])
-
-		// $(function() {
-		// 	$('#slideshow').find(':first-child').addClass('active');
-		//     setInterval( "slideSwitch()", <?php echo $options['scroller_interval_ms'] ?> );
-		// });
-
-		// function getCurrentWidth() {
-		// 	var width = $('.timer').width();
-		// 	var parentWidth = $('.timer').offsetParent().width();
-		// 	var percent = 100*width/parentWidth;
-
-		// 	return percent;
-		// }
+		// $alt = $(this).attr('alt')
+		// $('#slideshow img).find([alt=$alt])
 
 		// var timerStop = function () {
 		//     if (!$("#slideshow > img")
@@ -219,28 +217,22 @@ $options = get_option('theme_twins_options');
 		//     		$('[data-id=' + $id + ']').addClass('active');
 
 		// 	$next.css({opacity: 0.0})
-	 //        			.addClass('active')
-	 //         			.animate({opacity: 1.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
-	 //         				$('#slideshow > img.last-active').removeClass('last-active');
-	 //         			});
+	 	//        			.addClass('active')
+	 	//         			.animate({opacity: 1.0}, <?php echo $options['scroller_transition_ms'] ?>, function() {
+	 	//         				$('#slideshow > img.last-active').removeClass('last-active');
+	 	//         			});
 
 		//  $('#slideshow > img.active').removeClass('active').addClass('last-active');
-  //   		$('.slide_text.active').removeClass('active').addClass('last-active');
-  //   		$('[data-id=' + $id + ']').addClass('active');
-  //   		$('.thumb-img.active').removeClass('active');	
-  //   		$('img[data-id=' + $id + ']').addClass('active');
-  //   		console.log("cambiando a id: " + $id);
-
-  //   		$('.timer').css({ width: 0 });	
+		//   		$('.slide_text.active').removeClass('active').addClass('last-active');
+		//   		$('[data-id=' + $id + ']').addClass('active');
+		//   		$('.thumb-img.active').removeClass('active');	
+		//   		$('img[data-id=' + $id + ']').addClass('active');
+		//   		console.log("cambiando a id: " + $id);
+		//   		$('.timer').css({ width: 0 });	
 		// }
 
 		// $(function() {
-			
-		// 	//activamos cosas
-			$('#slide_info .slide_text:first-child').addClass('active');
-			$('#slideshow > :first-child ').addClass('active');
-			$('#slider_index > :first-child').addClass('active');
-
+	
 		// 	//efecto al hacer click sobre la miniatura
 		// 	$('.slider_thumb img').click(function() {
 		// 		timerStop();
@@ -265,25 +257,6 @@ $options = get_option('theme_twins_options');
 		// 	});
 		// 	
 		// });
-		// 
-		// 
-// var $img = $('#slideshow > img')
-// $(window).on('resize', function () {
-//     var viewport = {
-//             width   : $(this).width(),
-//             height : $(this).height()
-//         },
-//         ratio     = ($img.height() / $img.width()),
-//         imgHeight = Math.floor(viewport.width * ratio);
-    
-//     $img.css({
-//         width     : viewport.width,
-//         height    : imgHeight,
-//         marginTop : (imgHeight > viewport.height) ? Math.floor((imgHeight - viewport.height) / 2 * -1) : 0
-//     });
-// }).trigger('resize');
-
-// });
 	</script>
 </body>
 </html>

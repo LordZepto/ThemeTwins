@@ -66,6 +66,7 @@ body {
 	float: none;
 	margin: 10px auto 0px auto;
 	padding: 0px;
+	margin-top: -10px;
 }
 #header nav .nav-menu ul li:hover > .children {
 	display: block;
@@ -94,10 +95,18 @@ body {
 .children li:hover > a {
 	color: white !important;
 }
+.timerParent {
+	position:fixed;
+	left:0;
+	right:0;
+	top: 70px;
+	height: 5px;
+	width: 100%;
+	background: rgba(135, 114, 0, 0.6) !important;
 
+}
 #header .timer {
 	position: relative;
-	top: 69px;
 	width: 100%;
 	height: 5px;
 	background: rgba(219, 150, 0, 1);
@@ -129,6 +138,7 @@ body {
 	width: 100%;
 	height: 100%;
 	background-size: cover;
+	background-position: center center;
 	/*z-index: -2;*/
 	display: none;
 }

@@ -80,7 +80,7 @@ function themetwins_setup() {
 	$themetwins_options = array(
 			'scroller_number_of_posts' 	=> '5',
 			'scroller_transition_ms' 	=> '1000',
-			'scroller_interval_ms'		=> '3000'
+			'scroller_interval_ms'		=> '6000'
 		);
 
 	if(! get_option('theme_twins_options')) {
