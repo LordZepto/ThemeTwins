@@ -13,8 +13,7 @@
 	</div><!-- #main .wrapper -->
 	<footer id="colophon" role="contentinfo">
 		<div class="site-info">
-			<?php do_action( 'themetwins_credits' ); ?>
-			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'themetwins' ) ); ?>" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'themetwins' ); ?>"><?php printf( __( 'Proudly powered by %s', 'themetwins' ), 'WordPress' ); ?></a>
+			Copyright 2013 NaizuStudio |  All Rights Reserved   |   ThemeTwins   |   <a href="#">LordZepto</a>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->

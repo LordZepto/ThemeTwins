@@ -652,6 +652,7 @@ section[role="banner"] {
 	width: 53.66666666666%; /* define a width to avoid dropping a wider submit button */
 }
 
+
 /* Footer */
 footer[role="contentinfo"] {
 	border-top: 1px solid #ededed;
@@ -667,12 +668,24 @@ footer[role="contentinfo"] {
 	margin-right: auto;
 	padding: 24px 0;
 	padding: 1.714285714rem 0;
+
 }
 footer[role="contentinfo"] a {
 	color: #686868;
 }
 footer[role="contentinfo"] a:hover {
 	color: #21759b;
+}
+footer .site-info {
+	/** TESTING SHIT **/
+
+    position:relative;
+    /*top: -100px;*/
+    color: #c6baa2;
+    text-shadow: 1px 1px 3px #000000;
+    filter: dropshadow(color=#000000, #blog offx=1, #blog offy=1);
+    text-align: center;
+    padding: 20px;
 }
 
 
