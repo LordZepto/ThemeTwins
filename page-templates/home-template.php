@@ -94,9 +94,10 @@ $options = get_option('theme_twins_options');
 
 		jQuery(document).ready(function($) {
 			homeEffect.init($('.timer'), $('.bgContainer'), $('.slide_text'));
-			$('#slide_info .slide_text:first-child').addClass('active');
-			$('#slideshow > :first-child ').addClass('active');
-			$('#slider_index > :first-child').addClass('active');
+			$('#slide_info .slide_text:first-child').addClass('active');// aadd this to the init routine.
+			$('#slideshow > :first-child ').addClass('active'); // aadd this to the init routine.
+			$('#slider_index > :first-child').addClass('active'); // aadd this to the init routine.
+
 		});
 		
 		var homeEffect = {
@@ -143,6 +144,7 @@ $options = get_option('theme_twins_options');
 				
 			},
 			progressBar: function(time) {
+				
 				timer = setInterval(function () {
 					nextwidth = homeEffect.getCurrentWidth() + 0.4 + "%";
 					homeEffect.timer.width( nextwidth );
@@ -150,6 +152,13 @@ $options = get_option('theme_twins_options');
 						homeEffect.fadeEffect($('.bgContainer.active'), $('.bgContainer.active').next())
 					}
 				}, 25); // Calculate "time" and replace this... 
+
+				$('#slider_container').hover(function(){
+					clearInterval(timer);
+				}, function() {
+					clearInterval(timer);
+					homeEffect.progressBar(homeEffect.progressStep);
+				});
 			},
 		};
 	</script>
