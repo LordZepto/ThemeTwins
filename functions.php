@@ -146,7 +146,8 @@ function themetwins_scripts_styles() {
 
 		$protocol = is_ssl() ? 'https' : 'http';
 		$query_args = array(
-			'family' => 'Open+Sans:400italic,700italic,400,700',
+			// 'family' => 'Open+Sans:400italic,700italic,400,700',
+			'family' => 'Duru+Sans|Istok+Web:400,700,400italic,700italic',
 			'subset' => $subsets,
 		);
 		wp_enqueue_style( 'themetwins-fonts', add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" ), array(), null );
@@ -219,10 +220,10 @@ function themetwins_widgets_init() {
 		'name' => __( 'Main Sidebar', 'themetwins' ),
 		'id' => 'sidebar-1',
 		'description' => __( 'Appears on posts and pages except the optional Front Page template, which has its own widgets', 'themetwins' ),
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s grid_4">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
+		'after_title' => '</h3><div class="clear"></div>',
 	) );
 
 	register_sidebar( array(
@@ -257,12 +258,27 @@ function themetwins_content_nav( $html_id ) {
 	global $wp_query;
 
 	$html_id = esc_attr( $html_id );
+	// <div id="pagination" class="container_12">
+	// 	<a href="#" class="page prev">< Previous</a>
+	// 	<a href="#" class="page">2</a>
+	// 	<a href="#" class="page">3</a>
+	// 	<span class="page selected">4</span>
+	// 	<a href="#" class="page">5</a>
+	// 	<a href="#" class="page">6</a>
+	// 	<a href="#" class="page next">Next ></a>
+	// </div>
+
+
+
+
+
+
 
 	if ( $wp_query->max_num_pages > 1 ) : ?>
 		<nav id="<?php echo $html_id; ?>" class="navigation" role="navigation">
-			<h3 class="assistive-text"><?php _e( 'Post navigation', 'themetwins' ); ?></h3>
-			<div class="nav-previous alignleft"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'themetwins' ) ); ?></div>
-			<div class="nav-next alignright"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'themetwins' ) ); ?></div>
+			<!-- <h3 class="assistive-text"><?php _e( 'Post navigation', 'themetwins' ); ?></h3> -->
+			<div class="nav-previous page prev alignleft"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'themetwins' ) ); ?></div>
+			<div class="nav-next alignright page next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'themetwins' ) ); ?></div>
 		</nav><!-- #<?php echo $html_id; ?> .navigation -->
 	<?php endif;
 }
