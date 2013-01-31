@@ -482,10 +482,11 @@ body {
 
 /** POSTS LIST **/
 
-#posts {
+#posts_wrapper {
     margin-top: -60px;
     position: relative;
     width: 635px;
+    min-height: 980px;
     background: #ffffff;
     float: left;
     border-radius: 10px;
@@ -662,7 +663,7 @@ article {
 
 /** PAGINATION **/
 
-/*.navigation {
+#nav-below {
     font-family: 'Istok Web', sans-serif;
     width: 100%;
     position: relative;
@@ -672,18 +673,19 @@ article {
     text-align: center;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-}*/
-.navigation .page {
+    z-index:-1;
+}
+.navigation .page-numbers {
     font-size: 10pt;
     text-decoration: none;
-    padding: 2px 6px;
+    padding: 1px 6px;
     color: #ffffff;
     background: #bfa38b;
     width: 25px;
     height: 25px;
     border-radius: 12px;
 }
-.navigation .selected, .navigation .page:hover {
+.navigation .current, .navigation .page-numbers:hover {
     background: #633e00;
 }
 .navigation .next, .navigation .prev {

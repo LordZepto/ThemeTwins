@@ -258,6 +258,8 @@ function themetwins_content_nav( $html_id ) {
 	global $wp_query;
 
 	$html_id = esc_attr( $html_id );
+	$current_page = max(1, get_query_var('paged'));
+
 	// <div id="pagination" class="container_12">
 	// 	<a href="#" class="page prev">< Previous</a>
 	// 	<a href="#" class="page">2</a>
@@ -268,17 +270,20 @@ function themetwins_content_nav( $html_id ) {
 	// 	<a href="#" class="page next">Next ></a>
 	// </div>
 
-
-
-
-
-
-
-	if ( $wp_query->max_num_pages > 1 ) : ?>
-		<nav id="<?php echo $html_id; ?>" class="navigation" role="navigation">
-			<!-- <h3 class="assistive-text"><?php _e( 'Post navigation', 'themetwins' ); ?></h3> -->
-			<div class="nav-previous page prev alignleft"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'themetwins' ) ); ?></div>
-			<div class="nav-next alignright page next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'themetwins' ) ); ?></div>
+	if ( $wp_query->max_num_pages > 0 ) : ?>
+		<nav id="<?php echo $html_id; ?>" class="navigation container_12" role="navigation">
+			<div class="grid_12">
+			<?php 
+			echo paginate_links(array(
+				'base' => get_pagenum_link(1) . '%_%',  
+      			'format' => '/page/%#%',  
+			    'current' => $current_page,  
+			    'total' => $wp_query->max_num_pages,  
+			    'prev_text' => '< Anterior',  
+			    'next_text' => 'Siguiente >'  
+				));
+			 ?>
+			</div>
 		</nav><!-- #<?php echo $html_id; ?> .navigation -->
 	<?php endif;
 }
