@@ -113,8 +113,8 @@ function themetwins_scripts_styles() {
 	/*
 	 * Adds JavaScript for handling the navigation menu hide-and-show behavior.
 	 */
+	wp_enqueue_script( 'themetwins-lightbox', get_template_directory_uri() . '/js/lightbox.js', array('jquery'), '1.0', true );
 	wp_enqueue_script( 'themetwins-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '1.0', true );
-
 	/*
 	 * Loads our special font CSS file.
 	 *
@@ -156,6 +156,7 @@ function themetwins_scripts_styles() {
 	/*
 	 * Loads our main stylesheet.
 	 */
+	wp_enqueue_style( 'themetwins-style-lightbox', get_template_directory_uri() . '/css/lightbox.css' );
 	wp_enqueue_style( 'themetwins-style', get_stylesheet_uri() );
 
 	/*
@@ -382,13 +383,13 @@ function themetwins_entry_meta() {
 	);
 
 	// Translators: 1 is category, 2 is tag, 3 is the date and 4 is the author's name.
-	if ( $tag_list ) {
-		$utility_text = __( 'This entry was posted in %1$s and tagged %2$s on %3$s<span class="by-author"> by %4$s</span>.', 'themetwins' );
-	} elseif ( $categories_list ) {
-		$utility_text = __( 'This entry was posted in %1$s on %3$s<span class="by-author"> by %4$s</span>.', 'themetwins' );
-	} else {
+	// if ( $tag_list ) {
+	// 	$utility_text = __( 'This entry was posted in %1$s and tagged %2$s on %3$s<span class="by-author"> by %4$s</span>.', 'themetwins' );
+	// } elseif ( $categories_list ) {
+	// 	$utility_text = __( 'This entry was posted in %1$s on %3$s<span class="by-author"> by %4$s</span>.', 'themetwins' );
+	// } else {
 		$utility_text = __( 'This entry was posted on %3$s<span class="by-author"> by %4$s</span>.', 'themetwins' );
-	}
+	// }
 
 	printf(
 		$utility_text,
@@ -657,7 +658,7 @@ function thumbnail_meta_box() {
 	$thumbnail_id = get_post_meta($post->ID, "post_sliderindex_thumbnail_id", true);
 	echo post_thumbnail_html($thumbnail_id);
 }
-
+add_image_size( 'single-post', 560, 'auto');
 /**
  * Throw this in the media attachment fields
  *
@@ -849,6 +850,14 @@ function post_thumbnail_html($thumbnail_id = null) {
 	return $content;
 }
 
+add_filter('the_content', 'my_addlightboxrel');
+function my_addlightboxrel($content) {
+       	global $post;
+    	$pattern = "/(<a(?![^>]*?rel=['\"]lightbox.*)[^>]*?href=['\"][^'\"]+?\.(?:bmp|gif|jpg|jpeg|png)\?{0,1}\S{0,}['\"][^\>]*)>/i";
+		$replacement = '$1 rel="lightbox['.$post->id.']">';
+		return preg_replace($pattern, $replacement, $content);
+}
+
 /**
  * Set/remove the post thumbnail. AJAX handler.
  *
@@ -878,3 +887,42 @@ function set_thumbnail() {
 
 	die('0');
 }
+/** Follow us widget **/
+
+
+class lz_widget_followUs extends WP_Widget {
+
+	function lz_widget_followUs() {
+		parent::WP_Widget(false, 'Siguenos En');
+	}
+
+	function widget() {
+		lz_followUs();
+	}
+ 
+}
+function lz_followUs() {
+
+
+?>
+<h3 class="widget-title">Siguenos en:</h3>
+<div class="clear"></div>			
+<ul class="widget_social">
+    <li><a href="#"><img src="http://lorempixel.com/50/50/" alt="deviantart"></a></li>
+    <li><a href="#"><img src="http://lorempixel.com/50/50/" alt="twitter"></a></li>
+    <li><a href="#"><img src="http://lorempixel.com/50/50/" alt="tumblr"></a></li>
+</ul>
+
+<?php
+}
+register_widget('lz_widget_followUs');
+
+
+/**
+ * Create a widget with this as a content:
+ * https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=naizustudio&count=3
+ *
+ * DEPRECATED API USE, SEE HOW TO DO IT :S
+ */
+?>
+

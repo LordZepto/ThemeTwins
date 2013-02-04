@@ -121,7 +121,9 @@ $options = get_option('theme_twins_options');
 			fadeEffect: function(from, to) {
 
 				this.index = from.parent().children('div').index(from)+1;
-				if(this.index == this.bgLength) { to = this.bgList.first(); this.index = 1}
+				if(this.index == this.bgLength) { // TODO: add check to see if we clicked one random index
+					to = this.bgList.first(); this.index = 1
+				} 
 				to.addClass('next-active').css({opacity:1});
 
 				from.animate({opacity: 0.0}, 1000, function() {
@@ -149,6 +151,7 @@ $options = get_option('theme_twins_options');
 					nextwidth = homeEffect.getCurrentWidth() + 0.4 + "%";
 					homeEffect.timer.width( nextwidth );
 					if (homeEffect.getCurrentWidth() >= '100') {
+						// TODO: see if we can check here if we are on last img
 						homeEffect.fadeEffect($('.bgContainer.active'), $('.bgContainer.active').next())
 					}
 				}, 25); // Calculate "time" and replace this... 

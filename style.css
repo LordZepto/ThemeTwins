@@ -452,28 +452,49 @@ textarea {
    ========================================================================== */
 
 body {
-    background-color: #bfa38b !important;
+    background-color: #766354 !important;
     font-family: 'Duru Sans', 'Helvetica Neue', arial, sans-serif;
+    /*//text-shadow: 0px -1px 0px #633e00;*/
 }
-
+a {
+  font-family: 'Duru Sans', 'Helvetica Neue', arial, sans-serif;
+  text-decoration: none;
+  color: #633e00;
+  /*text-shadow: 0px 0px 1px #633e00;*/
+}
+a:hover { color: #f19800; }
+p, li, .entry-meta {
+  font-family: 'Istok Web', 'Helvetica Neue', arial, sans-serif;
+  font-weight: 700;
+  color: #a68b6a;
+  /*text-shadow: 0px 0px -1px #a68b6a;*/
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Duru Sans', 'Helvetica Neue', arial, sans-serif;
+  text-decoration: none;
+  color: #633e00;
+  /*text-shadow: 0px 0px 1px;*/
+}
 #masthead {
     position: relative;
     background: url('img/header.png') no-repeat center top;
     height: 570px;
     padding-bottom: 5px;
-    top: -25px;
+    top: -40px;
 }
 .blog_title h1 {
     font-family: 'Istok Web', sans-serif;
     position: relative;
+    color: white;
     top: 320px;
     right: -100px;
     color: white;
+    /*text-shadow: 0px 0px 1px #fff;*/
     font-size: 35pt;
 }
 #rewrapper {
     background: #ffffff;
-    margin-top: -150px;
+    margin-top: -160px;
     z-index: 1;
     position: relative;
     border-bottom-right-radius: 10px;
@@ -483,6 +504,7 @@ body {
 /** POSTS LIST **/
 
 #posts_wrapper {
+    background: #ffffff url(img/post-bg.png) no-repeat center top !important;
     margin-top: -60px;
     position: relative;
     width: 635px;
@@ -491,10 +513,11 @@ body {
     float: left;
     border-radius: 10px;
     padding: 40px 0px 30px 0px;
+    z-index: 1;
 }
 article {
     margin: 0px 0px 30px 0px;
-    padding: 10px 30px 10px 50px;
+    padding: 10px 30px 10px 30px;
 }
 .post_image {
     width: 260px;
@@ -576,7 +599,7 @@ article {
 #secondary {
     margin-top: -10px;
     position: relative;
-    background: #ffffff;
+    background: #ffffff url(img/sidebar-bg.png) no-repeat left top !important;
     border-top-right-radius: 10px;
     max-width: 320px;
     padding-top: 20px;
@@ -704,7 +727,7 @@ article {
 /** FOOTER **/
 
 .site-info {
-    position:relative;
+    position: relative;
     /*top: -100px;*/
     color: #c6baa2;
     text-shadow: 1px 1px 3px #000000;

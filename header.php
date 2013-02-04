@@ -40,4 +40,4 @@
 	</header><!-- #masthead -->
 
 	<div id="main" class="wrapper">
-		<div id="rewrapper">
+		<div id="rewrapper" class="container_12">

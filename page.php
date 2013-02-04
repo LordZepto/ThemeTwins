@@ -13,13 +13,12 @@
  */
 
 get_header(); ?>
-	<div id="rewrapper">
     	<div id="posts_wrapper">
 	        <div id="posts" class="container_8">
 				<div id="primary" class=" site-content">
-					<div id="content" role="main">
+					<div id="content" role="main" class="grid_8">
 
-
+							<!-- page.php -->
 						<?php while ( have_posts() ) : the_post(); ?>
 							<?php get_template_part( 'content', 'page' ); ?>
 							<?php comments_template( '', true ); ?>
