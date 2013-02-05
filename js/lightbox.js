@@ -41,14 +41,14 @@ lightbox = new Lightbox options
 */
 
 (function() {
+
   var $, Lightbox, LightboxOptions;
 
   $ = jQuery;
-
   LightboxOptions = (function() {
     function LightboxOptions() {
-      this.fileLoadingImage = '/wp-content/themes/ThemeTwins/img/loading.gif';
-      this.fileCloseImage = '/wp-content/themes/ThemeTwins/img/close.png';
+      this.fileLoadingImage = '/wordpress/wp-content/themes/ThemeTwins/img/loading.gif';
+      this.fileCloseImage = '/wordpress/wp-content/themes/ThemeTwins/img/close.png';
       this.resizeDuration = 700;
       this.fadeDuration = 500;
       this.labelImage = "Image";
@@ -184,6 +184,7 @@ lightbox = new Lightbox options
         left: left + 'px'
       }).fadeIn(this.options.fadeDuration);
       this.changeImage(imageNumber);
+
     };
 
     Lightbox.prototype.changeImage = function(imageNumber) {

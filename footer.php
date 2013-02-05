@@ -18,7 +18,12 @@
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
-
+<script>
+    //apañacoooooo
+    if(jQuery('.entry-title').text() == 'Galería') {
+      jQuery('.gallery-icon a').attr('rel', 'lightbox[galeria]');
+    }
+</script>
 <?php wp_footer(); ?>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>

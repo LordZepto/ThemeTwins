@@ -26,16 +26,16 @@ if ( post_password_required() )
 	<?php // You can start editing here -- including this comment! ?>
 
 	<?php if ( have_comments() ) : ?>
-		<h2 class="comments-title">
+		<h2 class="comments-title grid_8">
 			<?php
-				printf( _n( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'themetwins' ),
-					number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>' );
+				printf( _n( '1 Comentario', '%1$s Comentarios', get_comments_number(), 'themetwins' ),
+					number_format_i18n( get_comments_number() ) );
 			?>
 		</h2>
 
-		<ol class="commentlist">
-			<?php wp_list_comments( array( 'callback' => 'themetwins_comment', 'style' => 'ol' ) ); ?>
-		</ol><!-- .commentlist -->
+		<ul class="commentlist">
+			<?php wp_list_comments( array( 'callback' => 'themetwins_comment', 'style' => 'ul' ) ); ?>
+		</ul><!-- .commentlist -->
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
 		<nav id="comment-nav-below" class="navigation" role="navigation">
@@ -55,6 +55,9 @@ if ( post_password_required() )
 
 	<?php endif; // have_comments() ?>
 
-	<?php comment_form(); ?>
+	
 
 </div><!-- #comments .comments-area -->
+<div class="comment-form grid_8">
+	<?php comment_form(); ?>
+</div>

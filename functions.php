@@ -113,7 +113,7 @@ function themetwins_scripts_styles() {
 	/*
 	 * Adds JavaScript for handling the navigation menu hide-and-show behavior.
 	 */
-	wp_enqueue_script( 'themetwins-lightbox', get_template_directory_uri() . '/js/lightbox.js', array('jquery'), '1.0', true );
+	wp_enqueue_script( 'themetwins-lightbox', get_template_directory_uri() . '/js/lightbox.js', array('jquery'));
 	wp_enqueue_script( 'themetwins-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '1.0', true );
 	/*
 	 * Loads our special font CSS file.
@@ -373,10 +373,10 @@ function themetwins_entry_meta() {
 		esc_url( get_permalink() ),
 		esc_attr( get_the_time() ),
 		esc_attr( get_the_date( 'c' ) ),
-		esc_html( get_the_date() )
+		esc_html( get_the_date('j/m/Y') )
 	);
 
-	$author = sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
+	$author = sprintf( '<span class="author vcard"><!--<a class="url fn n" href="%1$s" title="%2$s" rel="author">-->%3$s<!--</a>--></span>',
 		esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 		esc_attr( sprintf( __( 'View all posts by %s', 'themetwins' ), get_the_author() ) ),
 		get_the_author()
@@ -388,7 +388,7 @@ function themetwins_entry_meta() {
 	// } elseif ( $categories_list ) {
 	// 	$utility_text = __( 'This entry was posted in %1$s on %3$s<span class="by-author"> by %4$s</span>.', 'themetwins' );
 	// } else {
-		$utility_text = __( 'This entry was posted on %3$s<span class="by-author"> by %4$s</span>.', 'themetwins' );
+		$utility_text = __( 'Por <span class="by-author">%4$s</span> | %3$s |', 'themetwins' );
 	// }
 
 	printf(
@@ -908,9 +908,9 @@ function lz_followUs() {
 <h3 class="widget-title">Siguenos en:</h3>
 <div class="clear"></div>			
 <ul class="widget_social">
-    <li><a href="#"><img src="http://lorempixel.com/50/50/" alt="deviantart"></a></li>
-    <li><a href="#"><img src="http://lorempixel.com/50/50/" alt="twitter"></a></li>
-    <li><a href="#"><img src="http://lorempixel.com/50/50/" alt="tumblr"></a></li>
+    <li><a href="http://naizustudio.deviantart.com/"><img src="<?php echo get_template_directory_uri() ?>/img/da.png" alt="deviantart"></a></li>
+    <li><a href="https://twitter.com/naizustudio"><img src="<?php echo get_template_directory_uri() ?>/img/twitter.png" alt="twitter"></a></li>
+    <li><a href="http://naizustudio.tumblr.com/"><img src="<?php echo get_template_directory_uri() ?>/img/tumblr.png" alt="tumblr"></a></li>
 </ul>
 
 <?php
