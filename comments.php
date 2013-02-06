@@ -55,9 +55,33 @@ if ( post_password_required() )
 
 	<?php endif; // have_comments() ?>
 
-	
-
 </div><!-- #comments .comments-area -->
+
+<?php
+	$req = get_option( 'require_name_email' );
+	$aria_req = ( $req ? " aria-required='true'" : '' );
+	$fields =  array(
+	        'author' => '<input id="author" name="author" type="text" placeholder="Nombre ' . ( $req ? '*' : '' ) . '" value="' . esc_attr( $commenter['comment_author'] ) . '" ' . $aria_req . ' />',
+	        'email'  => '<input id="email"  name="email"  type="text" placeholder="Email ' . ( $req ? '*' : '' ) . '" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" ' . $aria_req . ' />',
+	        'url'    => '<input id="url"    name="url"    type="text" placeholder="Url" value="' . esc_attr( $commenter['comment_author_url'] ) . '" /><div class="clear"></div>',
+	);
+	$required_text = sprintf( ' ' . __('Required fields are marked %s'), '<span class="required">*</span>' );
+	$defaults = array(
+	        'fields'               => apply_filters( 'comment_form_default_fields', $fields ),
+	        'comment_field'        => '<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" placeholder="Comentario ... *" aria-required="true"></textarea></p><div class="clear"></div>',
+	        'comment_notes_before' => '<p class="comment-notes">' . __( 'Your email address will not be published.' ) . ( $req ? $required_text : '' ) . '</p>',
+	        'comment_notes_after'  => '<p class="form-allowed-tags">' . sprintf( __( 'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s' ), ' <code>' . allowed_tags() . '</code>' ) . '</p>',
+	        'id_form'              => 'commentform',
+	        'id_submit'            => 'submit',
+	        'title_reply'          => __( 'Leave a Reply' ),
+	        'title_reply_to'       => __( 'Leave a Reply to %s' ),
+	        'cancel_reply_link'    => __( 'Cancel reply' ),
+	        'label_submit'         => __( 'Post Comment' ),
+	);
+	
+	$args = apply_filters( 'comment_form_defaults', $defaults );
+?>
+
 <div class="comment-form grid_8">
-	<?php comment_form(); ?>
+	<?php comment_form($args); ?>
 </div>
