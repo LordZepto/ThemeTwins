@@ -857,7 +857,7 @@ function my_addlightboxrel($content) {
 		$replacement = '$1 rel="lightbox['.$post->id.']">';
 		return preg_replace($pattern, $replacement, $content);
 }
-
+add_filter( 'use_default_gallery_style', '__return_false' );
 /**
  * Set/remove the post thumbnail. AJAX handler.
  *
@@ -905,13 +905,16 @@ function lz_followUs() {
 
 
 ?>
-<h3 class="widget-title">Siguenos en:</h3>
-<div class="clear"></div>			
-<ul class="widget_social">
-    <li><a href="http://naizustudio.deviantart.com/"><img src="<?php echo get_template_directory_uri() ?>/img/da.png" alt="deviantart"></a></li>
-    <li><a href="https://twitter.com/naizustudio"><img src="<?php echo get_template_directory_uri() ?>/img/twitter.png" alt="twitter"></a></li>
-    <li><a href="http://naizustudio.tumblr.com/"><img src="<?php echo get_template_directory_uri() ?>/img/tumblr.png" alt="tumblr"></a></li>
-</ul>
+
+<aside id="recent-posts-2" class="widget widget_social_links grid_4">		
+	<h3 class="widget-title">Siguenos en:</h3>
+	<div class="clear"></div>			
+	<ul class="widget_social">
+	    <li><a href="http://naizustudio.deviantart.com/"><img src="<?php echo get_template_directory_uri() ?>/img/da.png" alt="deviantart"></a></li>
+	    <li><a href="https://twitter.com/naizustudio"><img src="<?php echo get_template_directory_uri() ?>/img/twitter.png" alt="twitter"></a></li>
+	    <li><a href="http://naizustudio.tumblr.com/"><img src="<?php echo get_template_directory_uri() ?>/img/tumblr.png" alt="tumblr"></a></li>
+	</ul>
+</aside>
 
 <?php
 }

@@ -101,6 +101,7 @@ $options = get_option('theme_twins_options');
 		});
 		
 		var homeEffect = {
+			// TODO: Discover the random bug where the effect just stops
 			init: function(timer, bgList, contentContainer) {
 				this.timer 				= timer;
 				this.bgList 			= bgList;
@@ -119,20 +120,13 @@ $options = get_option('theme_twins_options');
 				return percent;
 			},
 			fadeEffect: function(from, to) {
-
-				this.index = from.parent().children('div').index(from)+1;
-				if(this.index == this.bgLength) { // TODO: add check to see if we clicked one random index
-					to = this.bgList.first(); this.index = 1
-				} 
-				to.addClass('next-active').css({opacity:1});
-
+				to.addClass('next-active').css({ opacity:1 });
 				from.animate({opacity: 0.0}, 1000, function() {
 			  		from.removeClass('active');
 			  		to.removeClass('next-active').addClass('active').css({opacity: 1});
 			  	});
 			  	this.contentEffect(to.attr('data-id'));
-			  	this.timer.css({width:0});
-			  	
+			  	this.timer.css({width:0}); 	
 			},
 			contentEffect: function(id) {
 				$('.slide_text.active, .slider_thumb.active').removeClass('active');
@@ -142,17 +136,23 @@ $options = get_option('theme_twins_options');
 				clearInterval(this.progressBar);
 				$('.slide_text.active, .slider_thumb.active').removeClass('active');
 				$('.slide_text[data-id=' + id + '], .slider_thumb[data-id=' + id + ']').addClass('active');
-				this.fadeEffect($('.bgContainer.active'), $('.bgContainer[data-id=' + id + ']'));
-				
+				this.fadeEffect($('.bgContainer.active'), $('.bgContainer[data-id=' + id + ']'));	
 			},
 			progressBar: function(time) {
 				
 				timer = setInterval(function () {
-					nextwidth = homeEffect.getCurrentWidth() + 0.4 + "%";
+					var nextwidth 	= homeEffect.getCurrentWidth() + 0.4 + "%",
+						from 		= $('.bgContainer.active'),
+						to 			= $('.bgContainer.active').next();
+
 					homeEffect.timer.width( nextwidth );
 					if (homeEffect.getCurrentWidth() >= '100') {
-						// TODO: see if we can check here if we are on last img
-						homeEffect.fadeEffect($('.bgContainer.active'), $('.bgContainer.active').next())
+						homeEffect.index = from.parent().children('div').index(from)+1;
+						if(homeEffect.index == homeEffect.bgLength) {
+							to = homeEffect.bgList.first(); 
+							homeEffect.index = 1;
+						}
+						homeEffect.fadeEffect(from, to);
 					}
 				}, 25); // Calculate "time" and replace this... 
 

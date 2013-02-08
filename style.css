@@ -960,7 +960,7 @@ article {
 .widget ul li ul {
   display:none;
 }
-h3.widget-title {
+.widget-title {
     text-transform: uppercase;
     font-family: 'Istok Web', sans-serif;
     color: #633e00;
@@ -987,10 +987,12 @@ h3.widget-title {
     height: 50px;
 }
 .widget_social li a {
-
     width: 35px;
     height: 35px;
     text-decoration: none;
+}
+.widget:not(.widget_nav_menu) {
+  margin-left: 25px;
 }
 .widget_social li a:hover {
     /*border: 3px solid #f19800;*/
@@ -1140,8 +1142,10 @@ textarea {
   margin-left: 30px;
 }
 .commentlist {
-  padding-left: 0;
-  list-style: none;
+  list-style:none; 
+  margin:0 0 1em; 
+  padding:0; 
+  text-indent:0;
 }
 .comment {
   list-style: none;
@@ -1152,16 +1156,11 @@ li.comment {
   margin: 15px 0;
   min-height: 100px;
 }
+article {
+  margin-right: 10px;
+}
 li.comment.depth-1.thread-odd {
   background: #cfc6ba !important;
-}
-ul.children {
-    padding: 0;
-  margin:0;
-
-}
-ul.children li {
-  margin-left: 20px;
 }
 article header a {
   color: grey;
@@ -1190,11 +1189,9 @@ article header .fn span {
   margin:0;
   padding:0;
 }
-article .reply a {
+.comment-reply-link {
   font-size: 0.9em;
-  float: right;
-  margin-right: 30px;
-  margin-top: -1.5em;
+  margin-top: 5px;
 }
 article .reply span {
   display: none;
@@ -1202,8 +1199,157 @@ article .reply span {
 article section .edit-link {
   margin-top: 1em;
 }
-.thread-odd {
+img.alignleft {
+  margin: 12px 24px 12px 0;
+  margin: 0.857142857rem 1.714285714rem 0.857142857rem 0;
+}
+img.alignright {
+  margin: 12px 0 12px 24px;
+  margin: 0.857142857rem 0 0.857142857rem 1.714285714rem;
+}
+img.aligncenter {
+  margin-top: 12px;
+  margin-top: 0.857142857rem;
+  margin-bottom: 12px;
+  margin-bottom: 0.857142857rem;
+}
+/* Images */
+.alignleft {
+  float: left;
+}
+.alignright {
+  float: right;
+}
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/** GALLERY **/
+.entry-content img {
+  max-width: 98%;
+  width: 120px;
+  height: 120px;
+  border: 2px solid white;
+  border-radius: 5px;
 
+}
+.entry-content img:hover {
+  border: 2px solid orange;
+  box-shadow:3px 3px 5px #CCCCCC;
+}
+.gallery {
+  clear: both;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.gallery .gallery-item {
+  overflow: hidden;
+  float: left;
+  margin: 10px 0 0;
+  text-align: center;
+  list-style: none;
+}
+.gallery-caption {
+  font-size: 11px;
+}
+ 
+/*
+Image sizes depending on the number of columns
+Based on Hybrid theme
+*/
+.gallery-columns-0 .gallery-item {
+  width: 100%;
+}
+.gallery-columns-1 .gallery-item {
+  width: 100%;
+}
+.gallery-columns-2 .gallery-item {
+  width: 50%;
+}
+.gallery-columns-3 .gallery-item {
+  width: 33.33%;
+}
+.gallery-columns-4 .gallery-item {
+  width: 25%;
+}
+.gallery-columns-5 .gallery-item {
+  width: 20%;
+}
+.gallery-columns-6 .gallery-item {
+  width: 16.66%;
+}
+.gallery-columns-7 .gallery-item {
+  width: 14.28%;
+}
+.gallery-columns-8 .gallery-item {
+  width: 12.5%;
+}
+.gallery-columns-9 .gallery-item {
+  width: 11.11%;
+}
+.gallery-columns-10 .gallery-item {
+  width: 10%;
+}
+.gallery-columns-11 .gallery-item {
+  width: 9.09%;
+}
+.gallery-columns-12 .gallery-item {
+  width: 8.33%;
+}
+.gallery-columns-13 .gallery-item {
+  width: 7.69%;
+}
+.gallery-columns-14 .gallery-item {
+  width: 7.14%;
+}
+.gallery-columns-15 .gallery-item {
+  width: 6.66%;
+}
+.gallery-columns-16 .gallery-item {
+  width: 6.25%;
+}
+.gallery-columns-17 .gallery-item {
+  width: 5.88%;
+}
+.gallery-columns-18 .gallery-item {
+  width: 5.55%;
+}
+.gallery-columns-19 .gallery-item {
+  width: 5.26%;
+}
+.gallery-columns-20 .gallery-item {
+  width: 5%;
+}
+.gallery-columns-21 .gallery-item {
+  width: 4.76%;
+}
+.gallery-columns-22 .gallery-item {
+  width: 4.54%;
+}
+.gallery-columns-23 .gallery-item {
+  width: 4.34%;
+}
+.gallery-columns-24 .gallery-item {
+  width: 4.16%;
+}
+.gallery-columns-25 .gallery-item {
+  width: 4%;
+}
+.gallery-columns-26 .gallery-item {
+  width: 3.84%;
+}
+.gallery-columns-27 .gallery-item {
+  width: 3.7%;
+}
+.gallery-columns-28 .gallery-item {
+  width: 3.57%;
+}
+.gallery-columns-29 .gallery-item {
+  width: 3.44%;
+}
+.gallery-columns-30 .gallery-item {
+  width: 3.33%;
 }
 /** FOOTER **/
 .site-info {
