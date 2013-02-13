@@ -1226,7 +1226,7 @@ img.aligncenter {
   margin-right: auto;
 }
 /** GALLERY **/
-.entry-content img {
+.entry-content .gallery img {
   max-width: 98%;
   width: 120px;
   height: 120px;
@@ -1234,7 +1234,7 @@ img.aligncenter {
   border-radius: 5px;
 
 }
-.entry-content img:hover {
+.entry-content .gallery img:hover {
   border: 2px solid orange;
   box-shadow:3px 3px 5px #CCCCCC;
 }
