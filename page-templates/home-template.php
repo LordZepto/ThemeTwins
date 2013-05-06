@@ -4,12 +4,16 @@
  *
  * Description: A template for the home page, this has a slider of recent posts
  *
- * @package ThemeTwins
- * @since ThemeTwins 0.1
+ * @package WordPress
+ * @subpackage ThemeTwins
+ * @version 1.0
+ * @date 18/02/013
+ * @author LordZepto
+ * @link http://lordzepto.net
  * 
  */
-$options = get_option('theme_twins_options');
 ?><!DOCTYPE html>
+<?php $options = get_option('theme_twins_options'); ?>
 <!--[if IE 7]>
 <html class="ie ie7" <?php language_attributes(); ?>>
 <![endif]-->
@@ -37,7 +41,7 @@ $options = get_option('theme_twins_options');
 		<div id="header">
 			<div class="logo">NaizuStudio</div>
 			<nav id="site-navigation" class="main-navigation" role="navigation">
-				<?php wp_nav_menu( array( 'theme_location' => 'Home', 'menu_class' => 'nav-menu' ) ); ?>
+				<?php wp_nav_menu( array( 'theme_location' => 'Home', 'menu_class' => 'nav-menu', 'menu' => 'Home') ); // Si creamos un menu predefinido para este elemento, se puede llamar desde aqui con 'menu' => 'nombredelmenu', solo hay que re-estilarlo entero :S?>
 			</nav><!-- #site-navigation -->
 			<div class="timerParent">
 				<div class="timer"></div>
@@ -51,9 +55,7 @@ $options = get_option('theme_twins_options');
 	            <div class="bgContainer" data-id="<?php the_ID() ?>" style="background-image: url('<?php echo wp_get_attachment_url( get_post_thumbnail_id($post->ID) );?>');">
 	            	
 	            </div>
-	               
-	         			
-	                  
+	                               
 	            <?php endwhile; ?>
 	            <?php wp_reset_query(); ?>
 	            <div id="slider_container">
@@ -93,6 +95,7 @@ $options = get_option('theme_twins_options');
 	<script type="text/javascript">
 
 		jQuery(document).ready(function($) {
+
 			homeEffect.init($('.timer'), $('.bgContainer'), $('.slide_text'));
 			$('#slide_info .slide_text:first-child').addClass('active');// aadd this to the init routine.
 			$('#slideshow > :first-child ').addClass('active'); // aadd this to the init routine.
@@ -108,9 +111,10 @@ $options = get_option('theme_twins_options');
 				this.bgLength 			= this.bgList.length;
 				this.bgLast 			= this.bgList.last();
 				this.progressStep		= 6000 / (10);
-				this.pbinterval			= this.progressBar(this.progressStep);
+				//this.pbinterval			= this.progressBar(this.progressStep);
 				this.timer.css({width:0});
-				$('.slider_thumb').click(function(){homeEffect.indexImage($(this).attr('data-id'))})
+				$('.slider_thumb').click(function(){homeEffect.indexImage($(this).attr('data-id'))});
+				console.log('bgLength: ' + this.bgLength); // Start checking if only 1 image, effect = off.
 			},
 			getCurrentWidth: function () {
 				var width = this.timer.width();
@@ -164,6 +168,19 @@ $options = get_option('theme_twins_options');
 				});
 			},
 		};
+	</script>
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-38560165-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
 	</script>
 </body>
 </html>

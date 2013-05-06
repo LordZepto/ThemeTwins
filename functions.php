@@ -18,8 +18,12 @@
  * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
  *
  * @package WordPress
- * @subpackage Twenty_Twelve
- * @since Twenty Twelve 1.0
+ * @subpackage ThemeTwins
+ * @version 1.0
+ * @date 18/02/013
+ * @author LordZepto
+ * @link http://lordzepto.net
+ * 
  */
 
 /**

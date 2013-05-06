@@ -4,10 +4,13 @@
  * See http://codex.wordpress.org/Custom_Headers
  *
  * @package WordPress
- * @subpackage Twenty_Twelve
- * @since Twenty Twelve 1.0
+ * @subpackage ThemeTwins
+ * @version 1.0
+ * @date 18/02/013
+ * @author LordZepto
+ * @link http://lordzepto.net
+ *
  */
-
 /**
  * Sets up the WordPress core custom header arguments and settings.
  *
@@ -16,8 +19,7 @@
  * @uses themetwins_admin_header_style() to style wp-admin form.
  * @uses themetwins_admin_header_image() to add custom markup to wp-admin form.
  *
- * @since Twenty Twelve 1.0
- */
+ *  */
 function themetwins_custom_header_setup() {
 	$args = array(
 		// Text color and image (empty to use none).
@@ -51,8 +53,7 @@ add_action( 'after_setup_theme', 'themetwins_custom_header_setup' );
  *
  * get_header_textcolor() options: 444 is default, hide text (returns 'blank'), or any hex value.
  *
- * @since Twenty Twelve 1.0
- */
+ *  */
 function themetwins_header_style() {
 	$text_color = get_header_textcolor();
 
@@ -89,8 +90,7 @@ function themetwins_header_style() {
 /**
  * Styles the header image displayed on the Appearance > Header admin panel.
  *
- * @since Twenty Twelve 1.0
- */
+ *  */
 function themetwins_admin_header_style() {
 ?>
 	<style type="text/css">
@@ -129,8 +129,7 @@ function themetwins_admin_header_style() {
  * Outputs markup to be displayed on the Appearance > Header admin panel.
  * This callback overrides the default markup displayed there.
  *
- * @since Twenty Twelve 1.0
- */
+ *  */
 function themetwins_admin_header_image() {
 	?>
 	<div id="headimg">

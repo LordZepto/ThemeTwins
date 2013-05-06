@@ -47,8 +47,8 @@ lightbox = new Lightbox options
   $ = jQuery;
   LightboxOptions = (function() {
     function LightboxOptions() {
-      this.fileLoadingImage = '/wordpress/wp-content/themes/ThemeTwins/img/loading.gif';
-      this.fileCloseImage = '/wordpress/wp-content/themes/ThemeTwins/img/close.png';
+      this.fileLoadingImage = '/wp-content/themes/ThemeTwins/img/loading.gif';
+      this.fileCloseImage = '/wp-content/themes/ThemeTwins/img/close.png';
       this.resizeDuration = 700;
       this.fadeDuration = 500;
       this.labelImage = "Image";

@@ -5,10 +5,13 @@
  * If no active widgets in either sidebar, they will be hidden completely.
  *
  * @package WordPress
- * @subpackage Twenty_Twelve
- * @since Twenty Twelve 1.0
+ * @subpackage ThemeTwins
+ * @version 1.0
+ * @date 18/02/013
+ * @author LordZepto
+ * @link http://lordzepto.net
+ *
  */
-
 /*
  * The front page widget area is triggered if any of the areas
  * have widgets. So let's check that first.

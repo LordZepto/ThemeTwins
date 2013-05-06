@@ -38,7 +38,7 @@ body {
 	color: white;
 	margin-right: 20px; /* Quitar esto si quieres que llegue el menú hasta el borde al hover */
 }
-#header nav .nav-menu ul li {
+#header nav #menu-home li {
 	margin-top: -15px;
 	list-style: none;
 	float: left;
@@ -46,21 +46,21 @@ body {
 	width: 90px;
 	text-align: center;
 }
-#header nav .nav-menu ul li a {
+#header nav #menu-home li a {
 	color: white;
 	text-decoration: none;
 }
-#header nav .nav-menu ul li:hover {
+#header nav #menu-home li:hover {
 	background: rgba(36, 36, 36, 0.6);
 	-moz-box-shadow: inset -2px 2px 10px 1px #333;
 	-webkit-box-shadow: inset -2px 2px 10px 1px #333;
 	box-shadow: inset -2px 2px 10px 1px #333;
 }
-#header nav .nav-menu ul li:hover > a {
+#header nav #menu-home li:hover > a {
 	color: rgba(219, 150, 0, 1);
 }
 /** SUBMENUS **/
-.children {
+.sub-menu {
 	display: none;
 	position: relative;
 	float: none;
@@ -68,7 +68,7 @@ body {
 	padding: 0px;
 	margin-top: -10px;
 }
-#header nav .nav-menu ul li:hover > .children {
+#header nav #menu-home li:hover > .sub-menu {
 	display: block;
 	position: absolute;
 	margin-top: 22px;
@@ -79,20 +79,20 @@ body {
 	/*height: 500px;*/
 	z-index: 9999999;
 }
-#header nav .nav-menu ul li:hover > .children li {
+#header nav #menu-home li:hover > .sub-menu li {
 	margin: 0 auto;
 	text-align: center;
 	float: none;
 	padding: 8px 10px;
 }
-.children li a {
+.sub-menu li a {
 	font-size: 13px;
 	-webkit-font-smoothing: antialiased;
 }
-.children li:hover {
+.sub-menu li:hover {
 	background: rgba(135, 114, 0, 0.6) !important;
 }
-.children li:hover > a {
+.sub-menu li:hover > a {
 	color: white !important;
 }
 .timerParent {

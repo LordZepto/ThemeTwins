@@ -6,9 +6,13 @@
  * The deviantart template file, not a template needed but.... fuck it.
  *
  *
- * @package NaizuStudio
+ * @package WordPress
  * @subpackage ThemeTwins
- * @since ThemeTwins 0.0
+ * @version 1.0
+ * @date 18/02/013
+ * @author LordZepto
+ * @link http://lordzepto.net
+ * 
  */
 
 get_header(); ?>

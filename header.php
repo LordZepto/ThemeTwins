@@ -4,9 +4,12 @@
  *
  * Displays all of the <head> section and everything up till <div id="main">
  *
- * @package ThemeTwins
+ * @package WordPress
  * @subpackage ThemeTwins
- * @since ThemeTwins 0.1
+ * @version 1.0
+ * @date 18/02/013
+ * @author LordZepto
+ * @link http://lordzepto.net
  */
 ?><!DOCTYPE html>
 <!--[if IE 7]>
@@ -35,7 +38,7 @@
 <div id="page wrapper" class="container_12 hfeed site">
 	<header id="masthead" class="site-header" role="banner">
 		<div class="blog_title">
-			<h1>NaizuStudio</h1>
+			<h1><a style="color: white" href="/">NaizuStudio</a></h1>
 		</div>
 	</header><!-- #masthead -->
 

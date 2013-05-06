@@ -8,10 +8,13 @@
  * located in the functions.php file.
  *
  * @package WordPress
- * @subpackage Twenty_Twelve
- * @since Twenty Twelve 1.0
+ * @subpackage ThemeTwins
+ * @version 1.0
+ * @date 18/02/013
+ * @author LordZepto
+ * @link http://lordzepto.net
+ *
  */
-
 /*
  * If the current post is protected by a password and
  * the visitor has not yet entered the password we will

@@ -1,15 +1,11 @@
-
 /*
 Theme Name: ThemeTwins
 Theme URI: http://www.naizustudio.com;
 Description: WordPress Theme tailored for NaizuStudio
 Author: LordZepto
 Author URI: http://lordzepto.net/
-Version: 0.9
+Version: 1.0
 Tags: 
-
-License:
-License URI:
 
 General comments (optional).
 */
@@ -903,7 +899,7 @@ article {
     list-style: none;
     padding-left: 3px;
 }
-.post_comments_count a{
+.post_comments_count a {
     color: #633e00;
     text-decoration: none;
     font-family: 'Duru Sans', sans-serif;
@@ -938,7 +934,7 @@ article {
     padding-top: 20px;
     padding-left: 5px;
     float: right;
-    font-size: 10pt;
+    /*font-size: 25pt;*/
 }
 .widget_nav_menu ul li {
     text-transform: uppercase;
@@ -960,7 +956,7 @@ article {
 .widget ul li ul {
   display:none;
 }
-.widget-title {
+.widget-title, .widget-title a {
     text-transform: uppercase;
     font-family: 'Istok Web', sans-serif;
     color: #633e00;
@@ -991,21 +987,22 @@ article {
     height: 35px;
     text-decoration: none;
 }
-.widget:not(.widget_nav_menu) {
+aside.widget:not(.widget_nav_menu) {
   margin-left: 25px;
+}
+aside.widget:not(.widget_nav_menu) ul li, aside.widget:not(.widget_nav_menu) p{
+  margin-right: 25px;
 }
 .widget_social li a:hover {
     /*border: 3px solid #f19800;*/
     cursor:pointer;
-}
-.widget_twitter ul {
-    padding-left: 10px; 
 }
 .widget_twitter ul li {
     font-size: 10pt;
     color: #633e00;
     list-style: none;
     margin: 5px;
+    margin-right: 10px;
     text-indent: 0;
 }
 .widget_twitter a.twitter-user, .widget_twitter span.time-meta a {
@@ -1075,9 +1072,13 @@ header.entry-header .comments-link {
   color: #545454;
 }
 .entry-content p {
-    font-size: 12px;
+    font-size: 14px;
+    line-height: 18px;
 }
-.entry-content strong, .entry-content a {
+.entry-content strong {
+    color: #a68b6a;
+} 
+.entry-content a {
   color: #a68b6a;
   text-decoration: underline;
 
@@ -1187,7 +1188,7 @@ article header .fn span {
 .comment-content p {
   font-size: 0.9em;
   margin:0;
-  padding:0;
+  padding: 12px;
 }
 .comment-reply-link {
   font-size: 0.9em;
@@ -1361,4 +1362,3 @@ Based on Hybrid theme
     text-align: center;
     padding: 20px;
 }
-
