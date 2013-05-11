@@ -349,7 +349,7 @@ function themetwins_comment( $comment, $args, $depth ) {
 			</section><!-- .comment-content -->
 
 			<div class="reply">
-				<?php comment_reply_link( array_merge( $args, array( 'reply_text' => __( 'Reply', 'themetwins' ), 'after' => ' <span>&darr;</span>', 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+				<?php comment_reply_link( array_merge( $args, array( 'reply_text' => 'Responder' , 'after' => ' <span>&darr;</span>', 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
 			</div><!-- .reply -->
 		</article><!-- #comment-## -->
 	<?php

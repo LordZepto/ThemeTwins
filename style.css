@@ -861,6 +861,7 @@ article {
 .entry-title {
     margin: 0;
     padding: 0;
+    line-height: 18px;
 }
 .entry-title a {
     font-family: 'Istok Web', sans-serif;
@@ -1072,7 +1073,7 @@ header.entry-header .comments-link {
   color: #545454;
 }
 .entry-content p {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 18px;
 }
 .entry-content strong {
@@ -1090,11 +1091,24 @@ header.entry-header .comments-link {
 .nav-single .nav-next {
  float: right;
 }
+/** COMMENTS NEW **/
+.comment-content .comment {
+  padding: 5px;
+}
+.comment-textarea {
+  padding: 5px;
+}
 /** COMMENTS **/
 .comments-area, .comment-form {
   margin-top: 20px;
   background: #ede8e2;
   border-radius: 5px;
+  padding: 15px;
+
+  webkit-box-sizing: border-box;
+     moz-box-sizing: border-box;
+      ms-box-sizing: border-box;
+         box-sizing: border-box;
 }
 .comments-title, #reply-title {
   text-align: center;
@@ -1193,6 +1207,7 @@ article header .fn span {
 .comment-reply-link {
   font-size: 0.9em;
   margin-top: 5px;
+  margin-left: 10px;
 }
 article .reply span {
   display: none;
